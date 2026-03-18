@@ -14,9 +14,10 @@ jobs:
           TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           USER_ID: ${{ secrets.LINE_USER_ID }}
         run: |
-          jq -n --arg to "$USER_ID" '{"to": $to, "messages": [{"type": "text", "text": "議会ナビサイトを更新しました"}]}' > /tmp/payload.json
-          cat /tmp/payload.json
-          curl -v -X POST https://api.line.me/v2/bot/message/push \
+          CLEAN_USER_ID=$(echo -n "$USER_ID" | tr -d '\n\r ')
+          CLEAN_TOKEN=$(echo -n "$TOKEN" | tr -d '\n\r ')
+          jq -n --arg to "$CLEAN_USER_ID" '{"to": $to, "messages": [{"type": "text", "text": "議会ナビサイトを更新しました"}]}' > /tmp/payload.json
+          curl -X POST https://api.line.me/v2/bot/message/push \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $TOKEN" \
+            -H "Authorization: Bearer $CLEAN_TOKEN" \
             -d @/tmp/payload.json
