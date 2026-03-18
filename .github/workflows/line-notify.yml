@@ -14,9 +14,7 @@ jobs:
           TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           USER_ID: ${{ secrets.LINE_USER_ID }}
         run: |
-          cat > /tmp/payload.json << EOF
-          {"to": "$USER_ID", "messages": [{"type": "text", "text": "四万十町議会ナビサイトを更新しました！"}]}
-          EOF
+          printf '{"to": "%s", "messages": [{"type": "text", "text": "四万十町議会ナビサイトを更新しました！"}]}' "$USER_ID" > /tmp/payload.json
           curl -X POST https://api.line.me/v2/bot/message/push \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $TOKEN" \
