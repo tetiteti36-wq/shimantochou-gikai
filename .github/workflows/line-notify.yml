@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: LINEに通知を送る
+        env:
+          TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          USER_ID: ${{ secrets.LINE_USER_ID }}
         run: |
           curl -X POST https://api.line.me/v2/bot/message/push \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}" \
-            -d "{\"to\": \"${{ secrets.LINE_USER_ID }}\", \"messages\": [{\"type\": \"text\", \"text\": \"四万十町議会ナビサイトを更新しました！\"}]}"
+            -H "Authorization: Bearer ${TOKEN}" \
+            -d "{\"to\": \"${USER_ID}\", \"messages\": [{\"type\": \"text\", \"text\": \"四万十町議会ナビサイトを更新しました！\"}]}"
