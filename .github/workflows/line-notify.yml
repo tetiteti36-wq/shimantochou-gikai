@@ -14,7 +14,11 @@ jobs:
           TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           USER_ID: ${{ secrets.LINE_USER_ID }}
         run: |
-          curl -X POST https://api.line.me/v2/bot/message/push \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${TOKEN}" \
-            -d "{\"to\": \"${USER_ID}\", \"messages\": [{\"type\": \"text\", \"text\": \"四万十町議会ナビサイトを更新しました！\"}]}"
+          python3 << 'EOF'
+          import urllib.request, json, os
+          token = os.environ['TOKEN']
+          user_id = os.environ['USER_ID']
+          data = json.dumps({"to": user_id, "messages": [{"type": "text", "text": "四万十町議会ナビサイトを更新しました！"}]}).encode('utf-8')
+          req = urllib.request.Request('https://api.line.me/v2/bot/message/push', data=data, headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {token}'})
+          print(urllib.request.urlopen(req).read())
+          EOF
