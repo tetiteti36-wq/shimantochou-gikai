@@ -1,0 +1,3316 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>四万十町議会ナビ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --river: #2d6a4f;
+      --river-light: #40916c;
+      --river-pale: #d8f3dc;
+      --water: #74c69d;
+      --sand: #fdf6ec;
+      --text: #1a2e1a;
+      --text-mid: #4a5c4a;
+      --text-light: #7a917a;
+      --accent: #e76f51;
+      --accent2: #f4a261;
+      --vote: #c0392b;
+      --vote-pale: #fdecea;
+      --white: #fff;
+      --border: #d8e8d8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* PAGE SYSTEM */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* NAV */
+    nav {
+      background: #1b4332;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.75rem;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--water);
+    }
+
+    .nav-election {
+      color: #f4a8a0 !important;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      background: #1b4332;
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-menu a {
+      display: block;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 10px 0;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+    }
+
+    /* HERO */
+    .page-hero {
+      padding: 64px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-green {
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #40916c 100%);
+    }
+
+    .hero-red {
+      background: linear-gradient(135deg, #7b1c1c 0%, #c0392b 40%, #e74c3c 100%);
+    }
+
+    .page-hero::after {
+      position: absolute;
+      right: -10px;
+      top: -40px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 16rem;
+      color: rgba(255, 255, 255, 0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero-green.p-top::after {
+      content: '議';
+    }
+
+    .hero-green.p-members::after {
+      content: '人';
+    }
+
+    .hero-green.p-report::after {
+      content: '報';
+    }
+
+    .hero-green.p-chosei::after {
+      content: '聴';
+    }
+
+    .hero-green.p-guide::after {
+      content: '読';
+    }
+
+    .hero-green.p-form::after {
+      content: '声';
+    }
+
+    .hero-red::after {
+      content: '票';
+    }
+
+    .breadcrumb {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .breadcrumb a {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .page-hero h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .page-hero p {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.9;
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    /* WAVE */
+    .wave {
+      width: 100%;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* COMMON */
+    section-title,
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    .fade-in {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ===== TOP PAGE ===== */
+    .hero-main {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(116, 198, 157, 0.2);
+      animation: ripple 8s infinite ease-out;
+    }
+
+    .hero-ripple:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 20%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+
+    .hero-ripple:nth-child(2) {
+      width: 500px;
+      height: 500px;
+      top: 10%;
+      right: 5%;
+      animation-delay: 2s;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.5
+      }
+
+      100% {
+        transform: scale(1.3);
+        opacity: 0
+      }
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: rgba(116, 198, 157, 0.25);
+      border: 1px solid rgba(116, 198, 157, 0.4);
+      color: var(--water);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      padding: 6px 16px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      color: #fff;
+      line-height: 1.2;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .hero-title .rw {
+      color: var(--water);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.65);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: 40px;
+      line-height: 1.9;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: var(--river);
+      padding: 14px 32px;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: 2px solid #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--water);
+      border-color: var(--water);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      padding: 14px 32px;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.85);
+      background: transparent;
+      transition: all 0.25s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--water);
+      color: var(--water);
+    }
+
+    .alert-banner {
+      margin: 0 48px;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-radius: 2px;
+      flex-wrap: wrap;
+      transform: translateY(-32px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .alert-election {
+      background: #fff0ee;
+      border-left: 4px solid var(--vote);
+    }
+
+    .alert-session {
+      background: #fff;
+      border-left: 4px solid var(--accent);
+    }
+
+    .alert-tag {
+      font-size: 0.65rem;
+      padding: 4px 10px;
+      letter-spacing: 0.15em;
+      border-radius: 1px;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .tag-vote {
+      background: var(--vote);
+      color: #fff;
+    }
+
+    .tag-session {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .alert-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .alert-sub {
+      font-size: 0.75rem;
+    }
+
+    .alert-link {
+      font-size: 0.78rem;
+      text-decoration: none;
+      border-bottom: 1px solid;
+      padding-bottom: 2px;
+      white-space: nowrap;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
+    .link-vote {
+      color: var(--vote);
+      border-color: #e8a8a0;
+    }
+
+    .link-session {
+      color: var(--river);
+      border-color: var(--river-pale);
+    }
+
+    .top-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--river-light);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(45, 106, 79, 0.12);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--river-pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 1.3rem;
+    }
+
+    .feature-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    .members-preview {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .mp-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mp-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(45, 106, 79, 0.1);
+    }
+
+    .mp-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .mp-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .mp-role {
+      font-size: 0.65rem;
+      color: var(--text-light);
+    }
+
+    .av-green {
+      background: linear-gradient(135deg, #2d6a4f, #40916c);
+    }
+
+    .av-teal {
+      background: linear-gradient(135deg, #40916c, #52b788);
+    }
+
+    .av-brown {
+      background: linear-gradient(135deg, #6b4f3a, #a07850);
+    }
+
+    .av-slate {
+      background: linear-gradient(135deg, #445566, #667788);
+    }
+
+    .av-red {
+      background: linear-gradient(135deg, #c05621, #e07040);
+    }
+
+    .av-indigo {
+      background: linear-gradient(135deg, #3949ab, #5c6bc0);
+    }
+
+    .av-dark {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+    }
+
+    .av-warm {
+      background: linear-gradient(135deg, #7b5a3a, #b07850);
+    }
+
+    .voice-cta-box {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+      border-radius: 2px;
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .voice-cta-box::after {
+      content: '声';
+      position: absolute;
+      right: -20px;
+      top: -30px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 14rem;
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1;
+    }
+
+    .voice-cta-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .voice-cta-box p {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.9;
+      max-width: 460px;
+    }
+
+    .btn-voice {
+      background: var(--accent);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 2px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      white-space: nowrap;
+      border: none;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: all 0.25s;
+    }
+
+    .btn-voice:hover {
+      background: #cf5b3d;
+      transform: translateY(-2px);
+    }
+
+    /* ===== MEMBERS ===== */
+    .stats-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 48px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--river);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+    }
+
+    .stat-div {
+      width: 1px;
+      height: 32px;
+      background: var(--border);
+    }
+
+    .filter-bar {
+      padding: 20px 48px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--river);
+      color: #fff;
+      border-color: var(--river);
+    }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .member-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(45, 106, 79, 0.12);
+      border-color: var(--river-light);
+    }
+
+    .member-card.hidden {
+      display: none;
+    }
+
+    .card-top {
+      padding: 24px 24px 16px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .role-badge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 0.65rem;
+      padding: 4px 12px;
+      letter-spacing: 0.12em;
+      font-weight: 500;
+    }
+
+    .role-gichou {
+      background: var(--river);
+      color: #fff;
+    }
+
+    .role-fuku {
+      background: var(--river-light);
+      color: #fff;
+    }
+
+    .member-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      border: 3px solid var(--river-pale);
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .member-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .member-kana {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .tag {
+      font-size: 0.63rem;
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+    }
+
+    .tag-none {
+      background: #f0f4f0;
+      color: var(--text-mid);
+    }
+
+    .tag-jcp {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .tag-veteran {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .tag-mid {
+      background: #e8f4fd;
+      color: #1e5c8c;
+    }
+
+    .tag-new {
+      background: var(--river-pale);
+      color: var(--river);
+    }
+
+    .card-body {
+      padding: 0 24px 16px;
+      border-top: 1px solid #f0f4f0;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px dashed #eef2ee;
+      font-size: 0.76rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-icon {
+      font-size: 0.85rem;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .info-label {
+      color: var(--text-light);
+      width: 60px;
+      flex-shrink: 0;
+    }
+
+    .info-value {
+      color: var(--text-mid);
+    }
+
+    .term-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .term-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--river);
+    }
+
+    .term-dot.e {
+      background: var(--river-pale);
+    }
+
+    .card-footer {
+      padding: 10px 24px;
+      border-top: 1px solid #f0f4f0;
+    }
+
+    .official-link-sm {
+      font-size: 0.7rem;
+      color: var(--river);
+      text-decoration: none;
+      border-bottom: 1px solid var(--river-pale);
+      padding-bottom: 1px;
+      cursor: pointer;
+    }
+
+    .supp-note {
+      background: #fff7ed;
+      border: 1px solid #fcd9b5;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 0.76rem;
+      color: #92400e;
+      line-height: 1.8;
+    }
+
+    /* ===== REPORT ===== */
+    .what-is-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .what-is-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--river);
+    }
+
+    .what-is-box p {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+    }
+
+    .latest-banner {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--accent);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .latest-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .latest-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .summary-num {
+      background: var(--river);
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .meta-date {
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    .pdf-btn {
+      font-size: 0.75rem;
+      color: var(--river);
+      text-decoration: none;
+      border: 1px solid var(--river-light);
+      padding: 4px 12px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .report-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .report-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .report-card:hover {
+      border-color: var(--river-light);
+      box-shadow: 0 4px 16px rgba(45, 106, 79, 0.08);
+      transform: translateX(4px);
+    }
+
+    .report-season {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ss {
+      background: #fff0f3;
+    }
+
+    .su {
+      background: #e8f8f5;
+    }
+
+    .sa {
+      background: #fff8e8;
+    }
+
+    .sw {
+      background: #e8f0ff;
+    }
+
+    .season-emoji {
+      font-size: 1.3rem;
+    }
+
+    .season-label {
+      font-size: 0.58rem;
+      color: var(--text-light);
+    }
+
+    .report-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .report-desc {
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    /* ===== CHOSEI ===== */
+    .reassure {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .reassure-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .reassure-icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .reassure-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--river);
+    }
+
+    .reassure-desc {
+      font-size: 0.73rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 27px;
+      top: 56px;
+      bottom: 56px;
+      width: 2px;
+      background: var(--river-pale);
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      padding: 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-badge {
+      width: 54px;
+      height: 54px;
+      background: var(--river);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #fff;
+      box-shadow: 0 0 0 4px var(--sand);
+    }
+
+    .step-badge .sn {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+    }
+
+    .step-badge .se {
+      font-size: 1.2rem;
+    }
+
+    .step-body {
+      flex: 1;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 22px;
+    }
+
+    .step-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+    }
+
+    .step-tip {
+      margin-top: 10px;
+      background: var(--river-pale);
+      border-radius: 3px;
+      padding: 8px 12px;
+      font-size: 0.73rem;
+      color: var(--river);
+      line-height: 1.7;
+    }
+
+    .access-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+
+    .access-head {
+      background: var(--river);
+      color: #fff;
+      padding: 14px 22px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .access-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .access-item {
+      display: flex;
+      gap: 10px;
+    }
+
+    .access-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .access-label {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 3px;
+    }
+
+    .access-value {
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--river);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.76rem;
+      margin: 0 22px 22px;
+    }
+
+    .faq {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .faq-q-mark {
+      color: var(--river);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .faq-a {
+      padding: 0 22px 16px 44px;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      display: none;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    /* ===== GUIDE ===== */
+    .goal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .goal-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 22px;
+      transition: all 0.25s;
+      cursor: default;
+    }
+
+    .goal-card:hover {
+      border-color: var(--river-light);
+      box-shadow: 0 6px 20px rgba(45, 106, 79, 0.08);
+    }
+
+    .goal-icon {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    .goal-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .goal-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .goal-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .step-num {
+      background: var(--river-pale);
+      color: var(--river);
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .goal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      font-size: 0.73rem;
+      color: var(--river);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .goal-link::after {
+      content: '→';
+    }
+
+    .sitemap-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .sitemap-header {
+      background: #f5f9f5;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sitemap-url {
+      font-size: 0.73rem;
+      color: var(--river-light);
+      font-family: monospace;
+      background: var(--river-pale);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .sitemap-body {
+      padding: 22px;
+    }
+
+    .cat-title {
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 8px 14px;
+      background: #f0f7f0;
+      border-left: 3px solid var(--river);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cat-badge {
+      font-size: 0.62rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .badge-hard {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 6px;
+      margin-bottom: 14px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 3px;
+      font-size: 0.76rem;
+    }
+
+    .link-item:hover {
+      background: #f5f9f5;
+    }
+
+    .link-original {
+      color: var(--river-light);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .link-arrow {
+      color: var(--text-light);
+    }
+
+    .link-plain {
+      color: var(--text-mid);
+      flex: 1.2;
+      line-height: 1.5;
+    }
+
+    .link-note {
+      font-size: 0.67rem;
+      color: var(--text-light);
+      background: #f0f7f0;
+      padding: 1px 7px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .supp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .supp-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .supp-head {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .supp-head.orange {
+      background: #fff7ed;
+      border-bottom: 2px solid var(--accent2);
+    }
+
+    .supp-head.green {
+      background: #f0f7f0;
+      border-bottom: 2px solid var(--river-light);
+    }
+
+    .supp-head.red {
+      background: #fff0ee;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .supp-head.blue {
+      background: #f0f4ff;
+      border-bottom: 2px solid #6381e0;
+    }
+
+    .supp-icon {
+      font-size: 1.3rem;
+    }
+
+    .supp-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .supp-body {
+      padding: 14px 18px;
+    }
+
+    .supp-body p {
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    .supp-link {
+      font-size: 0.73rem;
+      color: var(--river);
+      cursor: pointer;
+      border-bottom: 1px solid var(--river-pale);
+      padding-bottom: 1px;
+    }
+
+    .supp-link::after {
+      content: '→';
+    }
+
+    .tips-box {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+      border-radius: 4px;
+      padding: 32px 36px;
+    }
+
+    .tips-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .tips-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+
+    .tip-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--water);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* ===== FORM ===== */
+    .intro-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .intro-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+    }
+
+    .intro-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    .intro-card-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .intro-card-desc {
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+
+    .form-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .required {
+      color: var(--accent);
+      font-size: 0.65rem;
+      margin-left: 5px;
+      background: #fff0ee;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+
+    .optional {
+      color: var(--text-light);
+      font-size: 0.65rem;
+      margin-left: 5px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 11px 14px;
+      font-size: 0.83rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text);
+      background: #fafcfa;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--river-light);
+      box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.1);
+      background: #fff;
+    }
+
+    .form-textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .form-hint {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 5px;
+      line-height: 1.6;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+    }
+
+    .cat-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      transition: all 0.2s;
+      background: #fafcfa;
+    }
+
+    .cat-label:hover {
+      border-color: var(--river-light);
+      background: var(--river-pale);
+    }
+
+    .cat-label input {
+      accent-color: var(--river);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--river);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 6px;
+    }
+
+    .submit-btn:hover {
+      background: var(--river-light);
+      transform: translateY(-2px);
+    }
+
+    .privacy-note {
+      background: #f8faf8;
+      border: 1px solid #d0e8d0;
+      border-radius: 3px;
+      padding: 14px 18px;
+      margin-top: 16px;
+    }
+
+    .privacy-note p {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    .how-box {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+      border-radius: 4px;
+      padding: 32px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .how-box::before {
+      content: '💬';
+      position: absolute;
+      right: 28px;
+      top: 20px;
+      font-size: 3.5rem;
+      opacity: 0.12;
+    }
+
+    .how-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .how-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .how-item {
+      display: flex;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+
+    .how-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--water);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .embed-note {
+      background: #fff8e8;
+      border: 1px solid #f0d080;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 26px;
+      font-size: 0.76rem;
+      color: #7a5a00;
+      line-height: 1.8;
+    }
+
+    /* ===== ELECTION ===== */
+    .countdown-box {
+      background: var(--vote);
+      color: #fff;
+      border-radius: 4px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-box::after {
+      content: '🗳️';
+      position: absolute;
+      right: 20px;
+      font-size: 3.5rem;
+      opacity: 0.18;
+    }
+
+    .cd-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 5px;
+    }
+
+    .cd-date {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+
+    .cd-date span {
+      font-size: 0.82rem;
+      font-weight: 400;
+      margin-left: 7px;
+      opacity: 0.8;
+    }
+
+    .cd-div {
+      width: 1px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .cd-sub {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.8;
+    }
+
+    .election-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .el-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px;
+    }
+
+    .el-card.mayor {
+      border-top: 4px solid var(--vote);
+    }
+
+    .el-card.byosoku {
+      border-top: 4px solid var(--river);
+    }
+
+    .el-type {
+      font-size: 0.67rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .el-card.mayor .el-type {
+      color: var(--vote);
+    }
+
+    .el-card.byosoku .el-type {
+      color: var(--river);
+    }
+
+    .el-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .date-row {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.8rem;
+    }
+
+    .date-tag {
+      font-size: 0.65rem;
+      padding: 3px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    .tag-kokuji {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .tag-tohyo {
+      background: var(--vote-pale);
+      color: var(--vote);
+      font-weight: 700;
+    }
+
+    .el-note {
+      margin-top: 14px;
+      font-size: 0.76rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .candidate-note {
+      margin-top: 10px;
+      background: #fff7ed;
+      border-radius: 3px;
+      padding: 10px 13px;
+      font-size: 0.74rem;
+      color: #92400e;
+      line-height: 1.75;
+    }
+
+    .bg-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      margin-bottom: 48px;
+    }
+
+    .bg-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .bg-box p {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
+
+    .highlight {
+      background: var(--river-pale);
+      border-left: 3px solid var(--river);
+      padding: 12px 16px;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-top: 14px;
+    }
+
+    .whatis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+
+    .whatis-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .whatis-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .whatis-q {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .whatis-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--river);
+    }
+
+    .whatis-desc {
+      font-size: 0.74rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      text-align: left;
+    }
+
+    .vote-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .vote-step {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 22px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .vstep-num {
+      width: 34px;
+      height: 34px;
+      background: var(--river);
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .vstep-title {
+      font-weight: 500;
+      font-size: 0.87rem;
+      margin-bottom: 3px;
+    }
+
+    .vstep-desc {
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .vstep-tip {
+      font-size: 0.7rem;
+      color: var(--river);
+      margin-top: 5px;
+      background: var(--river-pale);
+      padding: 5px 9px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .official-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .ol-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ol-item:hover {
+      border-color: var(--river-light);
+      box-shadow: 0 4px 16px rgba(45, 106, 79, 0.08);
+      transform: translateX(4px);
+    }
+
+    .ol-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .ol-title {
+      font-weight: 500;
+      font-size: 0.85rem;
+      margin-bottom: 2px;
+    }
+
+    .ol-desc {
+      font-size: 0.7rem;
+      color: var(--text-light);
+    }
+
+    .ol-arrow {
+      margin-left: auto;
+      color: var(--river);
+      font-size: 1.1rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a2e1a;
+      padding: 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 8px;
+    }
+
+    .footer-desc {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.35);
+      line-height: 1.8;
+      max-width: 320px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      font-size: 0.73rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:900px) {
+      nav {
+        padding: 14px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .page-hero {
+        padding: 40px 20px 56px;
+      }
+
+      main {
+        padding: 32px 20px 60px;
+      }
+
+      .top-features,
+      .members-grid,
+      .election-cards,
+      .whatis-grid,
+      .reassure,
+      .supp-grid,
+      .intro-cards,
+      .goal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .members-preview {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .alert-banner {
+        margin: 0 20px;
+      }
+
+      .stats-bar,
+      .filter-bar {
+        padding: 14px 20px;
+      }
+
+      .access-body {
+        grid-template-columns: 1fr;
+      }
+
+      .voice-cta-box {
+        padding: 32px 24px;
+        flex-direction: column;
+      }
+
+      .countdown-box {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .cd-div {
+        width: 100%;
+        height: 1px;
+      }
+
+      footer {
+        padding: 32px 20px;
+      }
+    }
+
+    @media(max-width:600px) {
+
+      .top-features,
+      .members-grid,
+      .election-cards,
+      .whatis-grid,
+      .reassure,
+      .supp-grid,
+      .intro-cards,
+      .goal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .members-preview {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-title {
+        font-size: 2.4rem;
+      }
+
+      .steps::before {
+        left: 26px;
+      }
+    }
+
+    /* ===== NEWS ===== */
+    .news-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 48px;
+    }
+    .news-header {
+      background: #f5f9f5;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 600;
+      color: var(--river);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .news-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .news-item {
+      padding: 14px 22px;
+      border-bottom: 1px dashed #eef2ee;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .news-item:hover {
+      background: #fafcfa;
+    }
+    .news-item:last-child {
+      border-bottom: none;
+    }
+    .news-date {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .news-title {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .news-item:hover .news-title {
+      color: var(--river);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo" onclick="showPage('top')">四万十町議会ナビ</div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('members')" id="nav-members">議員紹介</a></li>
+      <li><a onclick="showPage('report')" id="nav-report">議会レポート</a></li>
+      <li><a onclick="showPage('chosei')" id="nav-chosei">傍聴ガイド</a></li>
+      <li><a onclick="showPage('guide')" id="nav-guide">公式サイトの読み方</a></li>
+      <li><a onclick="showPage('form')" id="nav-form">住民の声</a></li>
+      <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙情報</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a onclick="showPage('top');toggleMenu()">🏠 トップ</a>
+    <a onclick="showPage('members');toggleMenu()">👥 議員紹介</a>
+    <a onclick="showPage('report');toggleMenu()">📋 議会レポート</a>
+    <a onclick="showPage('chosei');toggleMenu()">🏛️ 傍聴ガイド</a>
+    <a onclick="showPage('guide');toggleMenu()">🗺️ 公式サイトの読み方</a>
+    <a onclick="showPage('form');toggleMenu()">💬 住民の声</a>
+    <a onclick="showPage('election');toggleMenu()" style="color:#f4a8a0;">🗳️ 選挙情報（2026年4月）</a>
+  </div>
+
+  <!-- ========== TOP ========== -->
+  <div id="page-top" class="page active">
+    <div class="hero-main hero-green"
+      style="background:linear-gradient(160deg,#1b4332 0%,#2d6a4f 45%,#40916c 100%);padding:0;">
+      <div class="hero-ripple"></div>
+      <div class="hero-ripple"></div>
+      <div
+        style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 48px 140px;position:relative;z-index:5;max-width:800px;">
+        <div class="hero-label">有志団体による情報ナビゲーション</div>
+        <h1 class="hero-title"><span class="rw">四万十</span>の<br>議会を、もっと<br>身近に。</h1>
+        <p class="hero-subtitle">「議会って難しそう」と感じている方へ。<br>わかりやすく、一緒に読み解いていきます。</p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="showPage('report')">議会レポートを読む</button>
+          <button class="btn-secondary" onclick="showPage('chosei')">傍聴してみる →</button>
+        </div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none"
+        style="height:80px;position:absolute;bottom:0;left:0;right:0;">
+        <path fill="#fdf6ec"
+          d="M0,60L80,48C160,36,320,12,480,14C640,16,800,44,960,50C1120,56,1280,40,1360,32L1440,24L1440,80L0,80Z" />
+      </svg>
+    </div>
+
+    <!-- ALERTS -->
+    <div class="alert-banner alert-election" style="margin-top:0;">
+      <span class="alert-tag tag-vote">🗳️ 選挙情報</span>
+      <div>
+        <div class="alert-title" style="color:#7b1c1c;">4月12日（日）は投票日 ― 町長選挙・議会議員補欠選挙</div>
+        <div class="alert-sub" style="color:var(--vote);">告示日：4月7日（火）　両選挙とも同日実施</div>
+      </div>
+      <a class="alert-link link-vote" onclick="showPage('election')">詳しく見る →</a>
+    </div>
+    <div class="alert-banner alert-session" style="margin-top:8px;">
+      <span class="alert-tag tag-session">📅 次の議会</span>
+      <div>
+        <div class="alert-title" style="color:var(--text);">2025年3月5日（水）午前10時〜</div>
+        <div class="alert-sub" style="color:var(--text-light);">四万十町役場 議場（3階）　予約不要・どなたでも傍聴できます</div>
+      </div>
+      <a class="alert-link link-session" onclick="showPage('chosei')">傍聴方法を確認 →</a>
+    </div>
+
+    <div style="max-width:940px;margin:48px auto 0;padding:0 32px;">
+      <div class="news-box fade-in">
+        <div class="news-header"><span>📰</span> 公式サイト新着情報</div>
+        <div class="news-list" id="gikai-news-list">
+          <!-- JS generated -->
+          <div style="padding:14px 22px;font-size:0.8rem;color:var(--text-light);">読み込み中...</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:940px;margin:0 auto;padding:0 32px 0;">
+      <div style="font-family:'Shippori Mincho',serif;font-size:1.4rem;font-weight:600;margin-bottom:6px;">このサイトでできること
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:28px;">議会をもっと身近に感じるための6つのコンテンツ</div>
+      <div class="top-features">
+        <div class="feature-card" onclick="showPage('report')">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">議会レポート</div>
+          <p class="feature-desc">難しい議事録をやさしく要約。「今回何が決まった？」が3分でわかります。</p>
+        </div>
+        <div class="feature-card" onclick="showPage('members')">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">議員紹介</div>
+          <p class="feature-desc">全議員のプロフィールと活動報告。どんな人が議会にいるのか、顔が見えます。</p>
+        </div>
+        <div class="feature-card" onclick="showPage('chosei')">
+          <div class="feature-icon">🏛️</div>
+          <div class="feature-title">傍聴ガイド</div>
+          <p class="feature-desc">「どこへ行けばいい？」初めての方でも安心のステップガイド。</p>
+        </div>
+        <div class="feature-card" onclick="showPage('guide')">
+          <div class="feature-icon">🗺️</div>
+          <div class="feature-title">公式サイトの読み方</div>
+          <p class="feature-desc">どこを見ればわかる？ナビゲーター付きで案内します。</p>
+        </div>
+        <div class="feature-card" onclick="showPage('election')">
+          <div class="feature-icon">🗳️</div>
+          <div class="feature-title">選挙情報</div>
+          <p class="feature-desc">4月の町長選・補欠選挙の日程や投票方法をわかりやすく解説。</p>
+        </div>
+        <div class="feature-card" onclick="showPage('form')">
+          <div class="feature-icon">💬</div>
+          <div class="feature-title">住民の声フォーム</div>
+          <p class="feature-desc">「議会に聞きたいこと」を送ってください。集めた声は届けます。</p>
+        </div>
+      </div>
+
+      <!-- MEMBERS PREVIEW -->
+      <div style="font-family:'Shippori Mincho',serif;font-size:1.4rem;font-weight:600;margin-bottom:6px;">議員一覧</div>
+      <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:20px;">四万十町議会には現在14名の議員がいます</div>
+      <div class="members-preview">
+        <div class="mp-card" onclick="showPage('members')">
+          <div class="mp-avatar av-green">緒</div>
+          <div class="mp-name">緒方 正綱</div>
+          <div class="mp-role">議長</div>
+        </div>
+        <div class="mp-card" onclick="showPage('members')">
+          <div class="mp-avatar av-teal">下</div>
+          <div class="mp-name">下元 真之</div>
+          <div class="mp-role">副議長</div>
+        </div>
+        <div class="mp-card" onclick="showPage('members')">
+          <div class="mp-avatar av-brown">武</div>
+          <div class="mp-name">武田 秀義</div>
+          <div class="mp-role">議員</div>
+        </div>
+        <div class="mp-card" onclick="showPage('members')">
+          <div class="mp-avatar av-teal">山</div>
+          <div class="mp-name">山本 大輔</div>
+          <div class="mp-role">議員</div>
+        </div>
+        <div class="mp-card" onclick="showPage('members')">
+          <div class="mp-avatar av-slate">林 健三</div>
+          <div class="mp-name">林 健三</div>
+          <div class="mp-role">議員</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;"><a
+          style="color:var(--river);font-size:0.8rem;cursor:pointer;border-bottom:1px solid var(--river-pale);padding-bottom:2px;"
+          onclick="showPage('members')">全議員を見る →</a></div>
+
+      <!-- VOICE CTA -->
+      <div class="voice-cta-box" style="margin-top:56px;margin-bottom:16px;">
+        <div>
+          <h3>あなたの声を、議会へ。</h3>
+          <p>「こんなこと聞いていいの？」そんな遠慮は不要です。<br>住民の疑問や意見を集めて、議会に届けるのがこのサイトの役割です。</p>
+        </div>
+        <button class="btn-voice" onclick="showPage('form')">意見・質問を送る</button>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">このサイトは有志団体が運営する非公式サイトです。最新情報は<a href="https://www.town.shimanto.lg.jp/" target="_blank"
+            style="color:rgba(255,255,255,0.5);">公式サイト</a>をご参照ください。</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#">このサイトについて</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- ========== MEMBERS ========== -->
+  <div id="page-members" class="page">
+    <div class="page-hero hero-green p-members">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 議員紹介</div>
+      <h1>議員紹介</h1>
+      <p>四万十町議会の議員14名を紹介します。<br>顔と名前を知ることが、議会を身近にする第一歩です。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#1b4332;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num">14</div>
+        <div class="stat-label">総議員数</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-num">13</div>
+        <div class="stat-label">無所属</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">日本共産党</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">女性議員</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-num">67</div>
+        <div class="stat-label">平均年齢（歳）</div>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">絞り込み：</span>
+      <button class="filter-btn active" onclick="filterCards('all',this)">すべて</button>
+      <button class="filter-btn" onclick="filterCards('veteran',this)">ベテラン（4期以上）</button>
+      <button class="filter-btn" onclick="filterCards('mid',this)">中堅（2〜3期）</button>
+      <button class="filter-btn" onclick="filterCards('new',this)">新人（1期）</button>
+      <button class="filter-btn" onclick="filterCards('female',this)">女性議員</button>
+    </div>
+    <main>
+      <div class="supp-note">📝 名前・読み仮名・生年月日・当選回数・党派は<a href="https://www.town.shimanto.lg.jp/giin/" target="_blank"
+          style="color:#c05621;">公式サイト</a>の情報をもとにしています。年齢は2025年時点。「得意分野」は今後、議員の皆さんにご協力いただき追加予定です。</div>
+      <div class="members-grid" id="membersGrid">
+        <!-- 14名のカードを動的生成 -->
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">議員情報は<a href="https://www.town.shimanto.lg.jp/giin/" target="_blank"
+            style="color:rgba(255,255,255,0.5);">公式サイト</a>をもとに作成。最新情報は公式サイトをご確認ください。</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== REPORT ========== -->
+  <div id="page-report" class="page">
+    <div class="page-hero hero-green p-report">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 議会レポート</div>
+      <h1>議会レポート</h1>
+      <p>難しい議事録を、住民目線でわかりやすく要約。<br>「今回の議会で何が決まったか」を3分で読めます。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#1b4332;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <main>
+      <div class="what-is-box">
+        <h3>📖 このコーナーについて</h3>
+        <p>四万十町議会の定例会は年4回（3月・6月・9月・12月）開かれます。毎回100ページ以上になる議事録を、「決まったこと」に絞って要約しています。原文は<a
+            href="https://www.town.shimanto.lg.jp/gijiroku/" target="_blank"
+            style="color:var(--river);">公式の議事録ページ</a>でご確認いただけます。</p>
+      </div>
+      <div class="latest-banner">
+        <div class="latest-label">▶ 最新レポート</div>
+        <div class="latest-title">令和6年 12月定例会レポート</div>
+        <div class="summary-list">
+          <div class="summary-item">
+            <div class="summary-num">1</div>令和7年度一般会計予算案が審議され、総額〇〇億円の予算が可決されました。
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">2</div>子育て支援拡充に関する条例改正が提案され、賛成多数で可決されました。
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">3</div>道路整備計画について複数の議員から質問が出され、執行部が回答しました。
+          </div>
+          <div class="summary-item">
+            <div class="summary-num">4</div>住民からの請願1件が委員会に付託されました。
+          </div>
+        </div>
+        <div class="meta-row"><span class="meta-date">2025年1月更新</span><a
+            href="https://www.town.shimanto.lg.jp/gijiroku/" target="_blank" class="pdf-btn">📄 公式議事録（PDF）</a></div>
+      </div>
+      <div class="section-title">バックナンバー</div>
+      <div class="report-list">
+        <div class="report-card">
+          <div class="report-season sa"><span class="season-emoji">🍂</span><span class="season-label">9月</span></div>
+          <div>
+            <div class="report-title">令和6年 9月定例会レポート</div>
+            <div class="report-desc">2024年10月更新 ／ 決算審査・補正予算など</div>
+          </div><span style="margin-left:auto;color:var(--text-light);">›</span>
+        </div>
+        <div class="report-card">
+          <div class="report-season su"><span class="season-emoji">🌿</span><span class="season-label">6月</span></div>
+          <div>
+            <div class="report-title">令和6年 6月定例会レポート</div>
+            <div class="report-desc">2024年7月更新 ／ 補正予算・条例改正など</div>
+          </div><span style="margin-left:auto;color:var(--text-light);">›</span>
+        </div>
+        <div class="report-card">
+          <div class="report-season ss"><span class="season-emoji">🌸</span><span class="season-label">3月</span></div>
+          <div>
+            <div class="report-title">令和6年 3月定例会レポート</div>
+            <div class="report-desc">2024年4月更新 ／ 令和6年度当初予算など</div>
+          </div><span style="margin-left:auto;color:var(--text-light);">›</span>
+        </div>
+        <div class="report-card">
+          <div class="report-season sw"><span class="season-emoji">❄️</span><span class="season-label">12月</span></div>
+          <div>
+            <div class="report-title">令和5年 12月定例会レポート</div>
+            <div class="report-desc">2024年1月更新 ／ 補正予算・人事案件など</div>
+          </div><span style="margin-left:auto;color:var(--text-light);">›</span>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">要約は有志が作成したものです。正確な内容は公式議事録をご確認ください。</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== CHOSEI ========== -->
+  <div id="page-chosei" class="page">
+    <div class="page-hero hero-green p-chosei">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 傍聴ガイド</div>
+      <h1>はじめての<br>傍聴ガイド</h1>
+      <p>議会の傍聴は、誰でも・無料で・予約なしでできます。<br>「難しそう」と思っていた方も、ぜひ一度足を運んでみてください。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#1b4332;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <main>
+      <div class="reassure">
+        <div class="reassure-item">
+          <div class="reassure-icon">🆓</div>
+          <div class="reassure-title">無料</div>
+          <div class="reassure-desc">入場料などは一切かかりません</div>
+        </div>
+        <div class="reassure-item">
+          <div class="reassure-icon">📝</div>
+          <div class="reassure-title">予約不要</div>
+          <div class="reassure-desc">当日、受付で名前を書くだけ</div>
+        </div>
+        <div class="reassure-item">
+          <div class="reassure-icon">👕</div>
+          <div class="reassure-title">服装自由</div>
+          <div class="reassure-desc">普段着で大丈夫。気軽にどうぞ</div>
+        </div>
+      </div>
+      <div class="section-title">当日の流れ</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-badge"><span class="sn">STEP</span><span class="se">📅</span></div>
+          <div class="step-body">
+            <div class="step-title">日程を確認する</div>
+            <div class="step-desc">定例会は年4回（3・6・9・12月）。午前10時開始が多いです。</div>
+            <div class="step-tip">💡 遅れても途中から傍聴できます</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-badge"><span class="sn">STEP</span><span class="se">🏛️</span></div>
+          <div class="step-body">
+            <div class="step-title">役場3階・議場へ向かう</div>
+            <div class="step-desc">四万十町役場（琴平町16番17号）の3階に議場があります。</div>
+            <div class="step-tip">💡 駐車場は役場敷地内が利用できます</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-badge"><span class="sn">STEP</span><span class="se">✍️</span></div>
+          <div class="step-body">
+            <div class="step-title">受付で名前を記入する</div>
+            <div class="step-desc">議場入口に受付があります。名前・住所を記入するだけでOK。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-badge"><span class="sn">STEP</span><span class="se">👂</span></div>
+          <div class="step-body">
+            <div class="step-title">傍聴席で見学する</div>
+            <div class="step-desc">メモを取ることができます。途中入退場も可能です。</div>
+            <div class="step-tip">💡 スマートフォンはマナーモードに</div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">アクセス</div>
+      <div class="access-box">
+        <div class="access-head">🏛️ 四万十町役場（議場：3階）</div>
+        <div class="access-body">
+          <div class="access-item"><span class="access-icon">📍</span>
+            <div>
+              <div class="access-label">住所</div>
+              <div class="access-value">高知県高岡郡四万十町琴平町16番17号</div>
+            </div>
+          </div>
+          <div class="access-item"><span class="access-icon">📞</span>
+            <div>
+              <div class="access-label">電話</div>
+              <div class="access-value">0880-22-3111（代表）</div>
+            </div>
+          </div>
+          <div class="access-item"><span class="access-icon">🕐</span>
+            <div>
+              <div class="access-label">開会時間</div>
+              <div class="access-value">午前10時〜（目安）</div>
+            </div>
+          </div>
+          <div class="access-item"><span class="access-icon">🚗</span>
+            <div>
+              <div class="access-label">駐車場</div>
+              <div class="access-value">役場敷地内に無料駐車場あり</div>
+            </div>
+          </div>
+        </div>
+        <a href="https://www.google.com/maps/search/四万十町役場" target="_blank" class="map-btn">🗺️ Googleマップで開く</a>
+      </div>
+      <div class="section-title">よくある質問</div>
+      <div class="faq">
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q"><span class="faq-q-mark">Q</span>子ども連れでも大丈夫ですか？</div>
+          <div class="faq-a">基本的には静かにしていただければ問題ありません。ただし乳幼児の声が気になる場合は、事務局にご相談ください。</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q"><span class="faq-q-mark">Q</span>何時間くらいかかりますか？</div>
+          <div class="faq-a">定例会の初日は午前中で終わることが多いです。途中で席を立っても構いません。</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q"><span class="faq-q-mark">Q</span>発言したり質問したりできますか？</div>
+          <div class="faq-a">傍聴者が直接発言することはできません。議会への意見は「住民の声フォーム」や「請願・陳情」という形で届けることができます。</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q"><span class="faq-q-mark">Q</span>内容が難しくてわからなくても大丈夫ですか？</div>
+          <div class="faq-a">もちろんです！全部理解しようとしなくて大丈夫。雰囲気を体感するだけでも価値があります。</div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">このサイトは有志団体が運営する非公式サイトです。</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== GUIDE ========== -->
+  <div id="page-guide" class="page">
+    <div class="page-hero hero-green p-guide">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 公式サイトの読み方</div>
+      <h1>公式サイトの<br>読み方ガイド</h1>
+      <p>四万十町の公式サイトには大切な情報がたくさん載っています。<br>このページが、公式サイトへのナビゲーターになります。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#1b4332;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <main>
+      <div style="margin-bottom:48px;">
+        <div class="section-title">まず「何を知りたいか」から探す</div>
+        <div class="goal-grid">
+          <div class="goal-card">
+            <div class="goal-icon">👥</div>
+            <div class="goal-title">今の議員を知りたい</div>
+            <div class="goal-steps">
+              <div class="goal-step">
+                <div class="step-num">1</div>「議会、選挙」へ
+              </div>
+              <div class="goal-step">
+                <div class="step-num">2</div>「議会」→「四万十町議会の組織」
+              </div>
+              <div class="goal-step">
+                <div class="step-num">3</div>議員名簿・委員会構成を確認
+              </div>
+            </div><a href="https://www.town.shimanto.lg.jp/life/catglist.php?hdnCat=170" target="_blank"
+              class="goal-link">公式サイトで開く</a>
+          </div>
+          <div class="goal-card">
+            <div class="goal-icon">📋</div>
+            <div class="goal-title">議事録を読みたい</div>
+            <div class="goal-steps">
+              <div class="goal-step">
+                <div class="step-num">1</div>「議会、選挙」へ
+              </div>
+              <div class="goal-step">
+                <div class="step-num">2</div>「議会」→「議会」（短いリンク）
+              </div>
+              <div class="goal-step">
+                <div class="step-num">3</div>定例会ごとのPDFを確認
+              </div>
+            </div><a href="https://www.town.shimanto.lg.jp/gijiroku/" target="_blank" class="goal-link">公式サイトで開く</a>
+          </div>
+          <div class="goal-card">
+            <div class="goal-icon">🏛️</div>
+            <div class="goal-title">傍聴・参加したい</div>
+            <div class="goal-steps">
+              <div class="goal-step">
+                <div class="step-num">1</div>「議会、選挙」へ
+              </div>
+              <div class="goal-step">
+                <div class="step-num">2</div>「議会」→「議会への参加」
+              </div>
+              <div class="goal-step">
+                <div class="step-num">3</div>詳細は<a onclick="showPage('chosei')"
+                  style="color:var(--river);cursor:pointer;">傍聴ガイド</a>も参考に
+              </div>
+            </div><a href="https://www.town.shimanto.lg.jp/life/catglist.php?hdnCat=170" target="_blank"
+              class="goal-link">公式サイトで開く</a>
+          </div>
+          <div class="goal-card">
+            <div class="goal-icon">📝</div>
+            <div class="goal-title">請願・陳情を出したい</div>
+            <div class="goal-steps">
+              <div class="goal-step">
+                <div class="step-num">1</div>「議会、選挙」へ
+              </div>
+              <div class="goal-step">
+                <div class="step-num">2</div>「議会の概要」→「請願・陳情の提出方法」
+              </div>
+              <div class="goal-step">
+                <div class="step-num">3</div>様式・提出先・締切を確認
+              </div>
+            </div><a href="https://www.town.shimanto.lg.jp/life/catglist.php?hdnCat=170" target="_blank"
+              class="goal-link">公式サイトで開く</a>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">公式サイトの「議会」ページ全解説</div>
+      <div class="sitemap-box" style="margin-bottom:48px;">
+        <div class="sitemap-header"><span style="font-size:0.73rem;color:var(--text-light);">公式サイト</span>
+          <div class="sitemap-url">town.shimanto.lg.jp › 議会、選挙</div>
+        </div>
+        <div class="sitemap-body">
+          <div class="cat-title">📂 議会<span class="cat-badge badge-hard">⚠ 重複あり</span></div>
+          <div class="link-list">
+            <div class="link-item"><span class="link-original">四万十町議会の組織（令和7年2月更新）</span><span
+                class="link-arrow">→</span><span class="link-plain">今の議員名簿・委員会一覧</span><span
+                class="link-note">最新情報はここ</span></div>
+            <div class="link-item"><span class="link-original">議会への参加</span><span class="link-arrow">→</span><span
+                class="link-plain">傍聴・請願の出し方</span><span class="link-note">2か所に重複</span></div>
+            <div class="link-item"><span class="link-original">四万十町議会の議員の議員報酬及び費用弁償等に関する条例の一部改正に係る意見公募について</span><span
+                class="link-arrow">→</span><span class="link-plain">議員報酬の改正案に意見を出せる機会</span><span
+                class="link-note">締切確認を</span></div>
+            <div class="link-item"><span class="link-original">議会の役割</span><span class="link-arrow">→</span><span
+                class="link-plain">議会って何をするところ？の基本説明</span><span class="link-note">初心者向け</span></div>
+            <div class="link-item"><span class="link-original">議会</span><span class="link-arrow">→</span><span
+                class="link-plain">議事録・会議録の一覧（PDF）</span><span class="link-note">🔍 重要！</span></div>
+          </div>
+          <div class="cat-title">📂 議会の概要<span class="cat-badge badge-hard">「議会」と内容が重なる</span></div>
+          <div class="link-list">
+            <div class="link-item"><span class="link-original">請願・陳情の提出方法</span><span class="link-arrow">→</span><span
+                class="link-plain">住民が議会に意見を届ける手続き</span><span class="link-note">★おすすめ</span></div>
+            <div class="link-item"><span class="link-original">議会への参加 / 議会の役割</span><span
+                class="link-arrow">→</span><span class="link-plain">「議会」カテゴリと同じページ（重複）</span><span
+                class="link-note">同じ内容</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">公式サイトにない情報を補完します</div>
+      <div class="supp-grid" style="margin-bottom:40px;">
+        <div class="supp-card">
+          <div class="supp-head orange"><span class="supp-icon">📰</span>
+            <div class="supp-title">議事録の「3行要約」</div>
+          </div>
+          <div class="supp-body">
+            <p>公式の議事録はPDFで100ページ以上になることも。このサイトでは「今回決まった5つのこと」形式で要約しています。</p><a class="supp-link"
+              onclick="showPage('report')">最新レポートを読む</a>
+          </div>
+        </div>
+        <div class="supp-card">
+          <div class="supp-head green"><span class="supp-icon">🏛️</span>
+            <div class="supp-title">はじめての傍聴ガイド</div>
+          </div>
+          <div class="supp-body">
+            <p>「実際どんな雰囲気？」「何を持っていけばいい？」体験ベースの情報をまとめています。</p><a class="supp-link"
+              onclick="showPage('chosei')">傍聴ガイドを見る</a>
+          </div>
+        </div>
+        <div class="supp-card">
+          <div class="supp-head red"><span class="supp-icon">👤</span>
+            <div class="supp-title">議員の「顔が見える」プロフィール</div>
+          </div>
+          <div class="supp-body">
+            <p>公式の名簿は名前と所属のみ。このサイトでは活動方針など住民が知りたい情報を掲載（準備中）。</p><a class="supp-link"
+              onclick="showPage('members')">議員紹介を見る</a>
+          </div>
+        </div>
+        <div class="supp-card">
+          <div class="supp-head blue"><span class="supp-icon">💬</span>
+            <div class="supp-title">住民の声を届けるフォーム</div>
+          </div>
+          <div class="supp-body">
+            <p>「請願を出す」のはハードルが高い。まずこのフォームで気軽に意見を送ってください。</p><a class="supp-link" onclick="showPage('form')">フォームを開く</a>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box">
+        <h3>💡 公式サイトを使うときのコツ</h3>
+        <div class="tips-list">
+          <div class="tip-item">
+            <div class="tip-bullet"></div>「議会の組織」リンクが最も新しい情報。議員が変わったときはここが最初に更新されます。
+          </div>
+          <div class="tip-item">
+            <div class="tip-bullet"></div>議事録は「議会」という<strong
+              style="color:var(--water);">短いタイトルのリンク</strong>が目印。長い名前のリンクは別の内容です。
+          </div>
+          <div class="tip-item">
+            <div class="tip-bullet"></div>同じリンクが複数カテゴリに出てきて混乱したら、このページの「用途から探す」に戻ってください。
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">このサイトは有志団体が運営する非公式サイトです。</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== FORM ========== -->
+  <div id="page-form" class="page">
+    <div class="page-hero hero-green p-form">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 住民の声</div>
+      <h1>あなたの声を、<br>議会へ。</h1>
+      <p>「こんなこと聞いていいの？」そんな遠慮は不要です。<br>町のこと、議会への疑問、なんでも送ってください。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#1b4332;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <main>
+      <div class="intro-cards">
+        <div class="intro-card">
+          <div class="intro-card-icon">🤔</div>
+          <div class="intro-card-title">議会への疑問・質問</div>
+          <div class="intro-card-desc">「なぜこんな決定が？」議会に聞いてみたいことを送ってください。</div>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-icon">💡</div>
+          <div class="intro-card-title">町への意見・提案</div>
+          <div class="intro-card-desc">「こうしてほしい」「こんな問題がある」住んでいるからこそ気づくことを。</div>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-icon">😟</div>
+          <div class="intro-card-title">困っていること</div>
+          <div class="intro-card-desc">道路、福祉、子育て、農業…身近な困りごとも大切な情報です。</div>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-icon">👍</div>
+          <div class="intro-card-title">応援・感想</div>
+          <div class="intro-card-desc">議員や議会の取り組みへの感想も歓迎です。</div>
+        </div>
+      </div>
+      <div class="section-title">意見・質問を送る</div>
+      <div class="embed-note">📋 <strong>サイト公開時はGoogleフォームをここに埋め込む予定です。</strong>現在はデザインのたたき版です。</div>
+      <div class="form-box">
+        <div class="form-group"><label class="form-label">カテゴリ<span class="required">必須</span></label>
+          <div class="cat-grid"><label class="cat-label"><input type="radio" name="cat"> 🤔 議会への質問</label><label
+              class="cat-label"><input type="radio" name="cat"> 💡 意見・提案</label><label class="cat-label"><input
+                type="radio" name="cat"> 😟 困っていること</label><label class="cat-label"><input type="radio" name="cat"> 👍
+              応援・感想</label></div>
+        </div>
+        <div class="form-group"><label class="form-label">お名前<span class="optional">任意</span></label><input type="text"
+            class="form-input" placeholder="ペンネームでも可。匿名でも送れます。"></div>
+        <div class="form-group"><label class="form-label">お住まいの地区<span class="optional">任意</span></label><select
+            class="form-select">
+            <option value="">選択してください</option>
+            <option>窪川地区</option>
+            <option>大正地区</option>
+            <option>十和地区</option>
+            <option>その他・町外</option>
+          </select></div>
+        <div class="form-group"><label class="form-label">内容<span class="required">必須</span></label><textarea
+            class="form-textarea" placeholder="どんな小さなことでも、気軽に書いてください。"></textarea></div>
+        <button class="submit-btn">送信する →</button>
+        <div class="privacy-note">
+          <p>📌 送信いただいた内容は運営団体が管理します。個人を特定できる情報を公開することはありません。</p>
+        </div>
+      </div>
+      <div class="how-box">
+        <h3>📬 届いた声はどうなるの？</h3>
+        <div class="how-list">
+          <div class="how-item">
+            <div class="how-dot"></div>集まった意見は定期的にまとめて、議会事務局または議員に届けます。
+          </div>
+          <div class="how-item">
+            <div class="how-dot"></div>多く寄せられたテーマはサイト上で「住民の声まとめ」として匿名で共有します。
+          </div>
+          <div class="how-item">
+            <div class="how-dot"></div>個人情報は一切公開しません。
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">このサイトは有志団体が運営する非公式サイトです。</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== ELECTION ========== -->
+  <div id="page-election" class="page">
+    <div class="page-hero hero-red">
+      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 選挙情報</div>
+      <h1>2026年4月<br>四万十町の選挙</h1>
+      <p>今年4月、四万十町では町長選挙と議会議員補欠選挙が同日に行われます。<br>あなたの一票が、この町の4年間を決めます。</p>
+    </div>
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+      style="height:60px;background:#7b1c1c;">
+      <path fill="#fdf6ec"
+        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+    </svg>
+    <main>
+      <div class="countdown-box">
+        <div>
+          <div class="cd-label">▶ 投票日まであと</div>
+          <div class="cd-date">2026年4月12日（日）<span id="days-left"></span></div>
+        </div>
+        <div class="cd-div"></div>
+        <div class="cd-sub">告示日：2026年4月7日（火）<br>町長選挙・議会議員補欠選挙 同日実施</div>
+      </div>
+      <div class="section-title">今回行われる2つの選挙</div>
+      <div class="election-cards">
+        <div class="el-card mayor">
+          <div class="el-type">▶ 首長選挙</div>
+          <div class="el-name">四万十町長選挙</div>
+          <div class="date-row">
+            <div class="date-item"><span class="date-tag tag-kokuji">告示日</span><span>2026年4月7日（火）</span></div>
+            <div class="date-item"><span class="date-tag tag-tohyo">投票日</span><span>2026年4月12日（日）</span></div>
+          </div>
+          <div class="el-note">町長の任期は4年。町政全体の方向性を決める最も重要な選挙です。</div>
+          <div class="candidate-note">📋 <strong>立候補予定者</strong><br>元教育長・元高知県議会議員の2名が立候補を予定しています。</div>
+        </div>
+        <div class="el-card byosoku">
+          <div class="el-type">▶ 議会議員補欠選挙</div>
+          <div class="el-name">四万十町議会議員<br>補欠選挙</div>
+          <div class="date-row">
+            <div class="date-item"><span class="date-tag tag-kokuji">告示日</span><span>2026年4月7日（火）</span></div>
+            <div class="date-item"><span class="date-tag tag-tohyo">投票日</span><span>2026年4月12日（日）</span></div>
+          </div>
+          <div class="el-note">議員に欠員が生じたため実施される補欠選挙です。</div>
+        </div>
+      </div>
+      <div class="section-title">補欠選挙が行われる背景</div>
+      <div class="bg-box">
+        <h3>🔍 なぜ今、補欠選挙が？</h3>
+        <p>補欠選挙（補選）とは、議員が任期中に辞職・死亡などで欠員が生じたとき、その空席を埋めるために行われる選挙です。</p>
+        <p>今回の四万十町議会議員補欠選挙は、<strong>現職の町議会議員2名がご逝去</strong>されたことで議会に2議席の欠員が生じたため、実施されることになりました。ご逝去された議員のご冥福をお祈り申し上げます。
+        </p>
+        <div class="highlight">📌 <strong>補欠選挙で選ばれた議員の任期</strong>は、次の通常選挙（議員任期満了）までとなります。4年間ではない点に注意が必要です。</div>
+      </div>
+      <div class="section-title">「選挙って何？」基本のキ</div>
+      <div class="whatis-grid">
+        <div class="whatis-card">
+          <div class="whatis-icon">🏛️</div>
+          <div class="whatis-q">そもそも</div>
+          <div class="whatis-title">選挙とは？</div>
+          <div class="whatis-desc">住民が代表者（町長・議員）を選ぶ仕組みです。投票は「あなたの意思表示」そのものです。</div>
+        </div>
+        <div class="whatis-card">
+          <div class="whatis-icon">👤</div>
+          <div class="whatis-q">町長と議員の違い</div>
+          <div class="whatis-title">誰を選ぶの？</div>
+          <div class="whatis-desc">町長は「実行する人」。議員は「チェックする人」。両方大切な役割です。</div>
+        </div>
+        <div class="whatis-card">
+          <div class="whatis-icon">📊</div>
+          <div class="whatis-q">投票しないと？</div>
+          <div class="whatis-title">棄権したらどうなる？</div>
+          <div class="whatis-desc">投票しない人の意見は反映されません。結果として「投票した人たちが選んだ人」が町を動かします。</div>
+        </div>
+      </div>
+      <div class="section-title">投票のしかた</div>
+      <div class="vote-steps">
+        <div class="vote-step">
+          <div class="vstep-num">1</div>
+          <div>
+            <div class="vstep-title">投票入場券を受け取る</div>
+            <div class="vstep-desc">告示後、自宅に「投票所入場券」が届きます。</div>
+            <div class="vstep-tip">💡 入場券がなくても本人確認できれば投票できます</div>
+          </div>
+        </div>
+        <div class="vote-step">
+          <div class="vstep-num">2</div>
+          <div>
+            <div class="vstep-title">投票所へ行く</div>
+            <div class="vstep-desc">入場券に記載された投票所へ。投票時間は午前7時〜午後8時が基本です。</div>
+          </div>
+        </div>
+        <div class="vote-step">
+          <div class="vstep-num">3</div>
+          <div>
+            <div class="vstep-title">候補者名を書いて投票</div>
+            <div class="vstep-desc">投票用紙に支持する候補者の名前を自筆で書き、投票箱へ。今回は2枚書きます。</div>
+            <div class="vstep-tip">💡 字が多少崩れていても有効票になります</div>
+          </div>
+        </div>
+        <div class="vote-step">
+          <div class="vstep-num" style="background:var(--accent2);">+</div>
+          <div>
+            <div class="vstep-title">期日前投票も使えます</div>
+            <div class="vstep-desc">告示日翌日〜投票日前日まで期日前投票ができます。理由は問われません。</div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">公式情報・リンク</div>
+      <div class="official-links">
+        <a href="https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12090" target="_blank" class="ol-item"><span
+            class="ol-icon">📋</span>
+          <div>
+            <div class="ol-title">立候補予定者説明会について（公式）</div>
+            <div class="ol-desc">立候補を検討している方向けの説明会情報</div>
+          </div><span class="ol-arrow">›</span>
+        </a>
+        <a href="https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=1144" target="_blank" class="ol-item"><span
+            class="ol-icon">🗺️</span>
+          <div>
+            <div class="ol-title">投票所一覧（公式）</div>
+            <div class="ol-desc">お住まいの地区の投票所をご確認ください</div>
+          </div><span class="ol-arrow">›</span>
+        </a>
+        <a href="https://www.town.shimanto.lg.jp/life/catglist.php?hdnCat=170" target="_blank" class="ol-item"><span
+            class="ol-icon">🏛️</span>
+          <div>
+            <div class="ol-title">四万十町公式サイト「議会・選挙」ページ</div>
+            <div class="ol-desc">最新の選挙情報はこちらからご確認ください</div>
+          </div><span class="ol-arrow">›</span>
+        </a>
+      </div>
+      <div class="voice-cta-box">
+        <div>
+          <h3>選挙について疑問がありますか？</h3>
+          <p>「誰に投票すればいい？」「候補者の情報はどこで見る？」<br>フォームから質問を送ってください。</p>
+        </div>
+        <button class="btn-voice" onclick="showPage('form')">質問を送る →</button>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <div class="footer-logo">四万十町議会ナビ</div>
+        <p class="footer-desc">選挙情報は<a href="https://www.town.shimanto.lg.jp/" target="_blank"
+            style="color:rgba(255,255,255,0.5);">公式サイト</a>をもとに作成。最新情報は公式サイトをご確認ください。</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="newsData.js"></script>
+  <script>
+    // ========== DATA RENDERING ==========
+    function buildNews() {
+      const container = document.getElementById('gikai-news-list');
+      if (!container) return;
+      if (typeof GIKAI_NEWS === 'undefined' || GIKAI_NEWS.length === 0) {
+        container.innerHTML = '<div style="padding:14px 22px;font-size:0.8rem;color:var(--text-light);">新着情報はありません</div>';
+        return;
+      }
+      container.innerHTML = GIKAI_NEWS.slice(0, 5).map(n => `
+        <a href="${n.url}" target="_blank" class="news-item">
+          <div class="news-date">${n.date}</div>
+          <div class="news-title">${n.title}</div>
+        </a>
+      `).join('');
+    }
+
+    // ========== PAGE NAVIGATION ==========
+    const MEMBERS = [
+      { name: '緒方 正綱', kana: 'おがた まさつな', role: '議長', term: 'veteran', terms: 5, age: 72, birth: '昭和28年', party: '無所属', av: 'av-green', id: 52 },
+      { name: '下元 真之', kana: 'しももと まさゆき', role: '副議長', term: 'mid', terms: 3, age: 56, birth: '昭和44年', party: '無所属', av: 'av-teal', id: 75 },
+      { name: '武田 秀義', kana: 'たけだ ひでよし', role: '議員', term: 'mid', terms: 3, age: 68, birth: '昭和32年', party: '無所属', av: 'av-brown', id: 62 },
+      { name: '山本 大輔', kana: 'やまもと だいすけ', role: '議員', term: 'new', terms: 1, age: 48, birth: '昭和52年', party: '無所属', av: 'av-teal', id: 72 },
+      { name: '林 健三', kana: 'はやし けんぞう', role: '議員', term: 'veteran', terms: 5, age: 75, birth: '昭和25年', party: '無所属', av: 'av-slate', id: 53 },
+      { name: '村井 眞菜', kana: 'むらい まな', role: '議員', term: 'mid', terms: 2, age: 39, birth: '昭和61年', party: '無所属', av: 'av-red', gender: 'female', id: 70 },
+      { name: '佐竹 将典', kana: 'さたけ まさのり', role: '議員', term: 'new', terms: 1, age: 36, birth: '平成2年', party: '無所属', av: 'av-teal', id: 74 },
+      { name: '中野 正延', kana: 'なかの まさのぶ', role: '議員', term: 'new', terms: 1, age: 58, birth: '昭和42年', party: '無所属', av: 'av-dark', id: 71 },
+      { name: '伴ノ内 珠喜', kana: 'ばんのうち たまき', role: '議員', term: 'new', terms: 1, age: 56, birth: '昭和44年', party: '日本共産党', av: 'av-indigo', id: 73 },
+      { name: '中屋 康', kana: 'なかや やすし', role: '議員', term: 'veteran', terms: 5, age: 79, birth: '昭和22年', party: '無所属', av: 'av-warm', id: 63 },
+      { name: '水間 淳一', kana: 'みま じゅんいち', role: '議員', term: 'mid', terms: 3, age: 80, birth: '昭和21年', party: '無所属', av: 'av-slate', id: 57 },
+      { name: '味元 和義', kana: 'みもと かずよし', role: '議員', term: 'veteran', terms: 4, age: 74, birth: '昭和26年', party: '無所属', av: 'av-brown', id: 60 },
+      { name: '橋本 章央', kana: 'はしもと ふみお', role: '議員', term: 'veteran', terms: 4, age: 74, birth: '昭和27年', party: '無所属', av: 'av-dark', id: 67 },
+      { name: '堀本 伸一', kana: 'ほりもと しんいち', role: '議員', term: 'veteran', terms: 5, age: 75, birth: '昭和25年', party: '無所属', av: 'av-green', id: 61 },
+    ];
+
+    function buildMembers() {
+      const grid = document.getElementById('membersGrid');
+      if (!grid || grid.children.length > 0) return;
+      MEMBERS.forEach((m, i) => {
+        const termTag = m.term === 'veteran' ? 'tag-veteran' : m.term === 'mid' ? 'tag-mid' : 'tag-new';
+        const termLabel = m.term === 'veteran' ? `${m.terms}期` : m.term === 'mid' ? `${m.terms}期` : `${m.terms}期`;
+        const dots = Array(5).fill(0).map((_, j) => `<div class="term-dot${j >= m.terms ? ' e' : ''}"></div>`).join('');
+        const roleBadge = m.role === '議長' ? '<span class="role-badge role-gichou">議長</span>' : m.role === '副議長' ? '<span class="role-badge role-fuku">副議長</span>' : '';
+        const topPad = m.role !== '議員' ? 'style="margin-top:26px;"' : '';
+        const infoPad = m.role !== '議員' ? 'style="padding-top:26px;"' : '';
+        const partyTag = m.party === '日本共産党' ? 'tag-jcp' : 'tag-none';
+        grid.innerHTML += `
+    <div class="member-card" data-term="${m.term}" data-gender="${m.gender || 'male'}" style="animation-delay:${i * 0.05}s">
+      <div class="card-top">
+        ${roleBadge}
+        <div class="member-avatar ${m.av}" ${topPad}>${m.name[0]}</div>
+        <div class="card-info" ${infoPad}>
+          <div class="member-name">${m.name}</div>
+          <div class="member-kana">${m.kana}</div>
+          <div class="tags">
+            <span class="tag ${partyTag}">${m.party}</span>
+            <span class="tag ${termTag}">${termLabel}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="info-icon">🎂</span><span class="info-label">年齢</span><span class="info-value"><strong>${m.age}歳</strong>（${m.birth}生）</span></div>
+        <div class="info-row"><span class="info-icon">🏆</span><span class="info-label">当選回数</span><span class="info-value"><div class="term-dots">${dots}</div></span></div>
+        <div class="info-row"><span class="info-icon">💬</span><span class="info-label">得意分野</span><span class="info-value" style="color:#bbb;">準備中</span></div>
+      </div>
+      <div class="card-footer">
+        <a href="https://www.town.shimanto.lg.jp/giin/dtl.php?id=${m.id}" target="_blank" class="official-link-sm">公式プロフィールを見る →</a>
+      </div>
+    </div>`;
+      });
+    }
+
+    function showPage(id, pushHistory = true) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const targetPage = document.getElementById('page-' + id);
+      if (targetPage) targetPage.classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const navEl = document.getElementById('nav-' + id);
+      if (navEl) navEl.classList.add('active');
+      window.scrollTo(0, 0);
+      if (id === 'members') buildMembers();
+
+      if (pushHistory) {
+        history.pushState({ pageId: id }, '', `#${id}`);
+      }
+    }
+
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.pageId) {
+        showPage(e.state.pageId, false);
+      } else {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById('page-' + hash)) {
+          showPage(hash, false);
+        } else {
+          showPage('top', false);
+        }
+      }
+    });
+
+    // 初期ロード時のハッシュチェックとヒストリー状態の初期化
+    (function initRouting() {
+      buildNews(); // Add News render
+      const hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById('page-' + hash)) {
+        showPage(hash, false);
+      } else {
+        history.replaceState({ pageId: 'top' }, '', window.location.pathname + window.location.search);
+      }
+    })();
+
+    function filterCards(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.member-card').forEach(card => {
+        if (filter === 'all') card.classList.remove('hidden');
+        else if (filter === 'female') card.dataset.gender === 'female' ? card.classList.remove('hidden') : card.classList.add('hidden');
+        else card.dataset.term === filter ? card.classList.remove('hidden') : card.classList.add('hidden');
+      });
+    }
+
+    function toggleMenu() {
+      const m = document.getElementById('mobileMenu');
+      m.style.display = m.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // カウントダウン
+    const votingDay = new Date('2026-04-12');
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const diff = Math.ceil((votingDay - today) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('days-left');
+    if (el) el.textContent = diff > 0 ? `（あと${diff}日）` : diff === 0 ? '（今日！）' : '（投票終了）';
+  </script>
+</body>
+
+</html>
