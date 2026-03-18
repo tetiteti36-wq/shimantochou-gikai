@@ -1,0 +1,17 @@
+name: LINE通知
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: LINEに通知を送る
+        run: |
+          curl -X POST https://api.line.me/v2/bot/message/push \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}" \
+            -d "{\"to\": \"${{ secrets.LINE_USER_ID }}\", \"messages\": [{\"type\": \"text\", \"text\": \"四万十町議会ナビサイトを更新しました！\"}]}"
