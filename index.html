@@ -2362,7 +2362,6 @@
       <li><a onclick="showPage('report')" id="nav-report">議会レポート</a></li>
       <li><a onclick="showPage('chosei')" id="nav-chosei">傍聴ガイド</a></li>
       <li><a onclick="showPage('guide')" id="nav-guide">公式サイトの読み方</a></li>
-      <li><a onclick="showPage('form')" id="nav-form">住民の声</a></li>
       <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙情報</a></li>
     </ul>
     <div class="hamburger" onclick="toggleMenu()">
@@ -2375,7 +2374,6 @@
     <a onclick="showPage('report');toggleMenu()">📋 議会レポート</a>
     <a onclick="showPage('chosei');toggleMenu()">🏛️ 傍聴ガイド</a>
     <a onclick="showPage('guide');toggleMenu()">🗺️ 公式サイトの読み方</a>
-    <a onclick="showPage('form');toggleMenu()">💬 住民の声</a>
     <a onclick="showPage('election');toggleMenu()" style="color:#f4a8a0;">🗳️ 選挙情報（2026年4月）</a>
   </div>
 
@@ -2460,11 +2458,6 @@
           <div class="feature-title">選挙情報</div>
           <p class="feature-desc">4月の町長選・補欠選挙の日程や投票方法をわかりやすく解説。</p>
         </div>
-        <div class="feature-card" onclick="showPage('form')">
-          <div class="feature-icon">💬</div>
-          <div class="feature-title">住民の声フォーム</div>
-          <p class="feature-desc">「議会に聞きたいこと」を送ってください。集めた声は届けます。</p>
-        </div>
       </div>
 
       <!-- MEMBERS PREVIEW -->
@@ -2501,14 +2494,6 @@
           style="color:var(--river);font-size:0.8rem;cursor:pointer;border-bottom:1px solid var(--river-pale);padding-bottom:2px;"
           onclick="showPage('members')">全議員を見る →</a></div>
 
-      <!-- VOICE CTA -->
-      <div class="voice-cta-box" style="margin-top:56px;margin-bottom:16px;">
-        <div>
-          <h3>あなたの声を、議会へ。</h3>
-          <p>「こんなこと聞いていいの？」そんな遠慮は不要です。<br>住民の疑問や意見を集めて、議会に届けるのがこのサイトの役割です。</p>
-        </div>
-        <button class="btn-voice" onclick="showPage('form')">意見・質問を送る</button>
-      </div>
     </div>
 
     <footer>
@@ -2772,7 +2757,7 @@
         </div>
         <div class="faq-item" onclick="this.classList.toggle('open')">
           <div class="faq-q"><span class="faq-q-mark">Q</span>発言したり質問したりできますか？</div>
-          <div class="faq-a">傍聴者が直接発言することはできません。議会への意見は「住民の声フォーム」や「請願・陳情」という形で届けることができます。</div>
+          <div class="faq-a">傍聴者が直接発言することはできません。議会への意見は「請願・陳情」という形で届けることができます。</div>
         </div>
         <div class="faq-item" onclick="this.classList.toggle('open')">
           <div class="faq-q"><span class="faq-q-mark">Q</span>内容が難しくてわからなくても大丈夫ですか？</div>
@@ -2988,90 +2973,6 @@
           <div class="tip-item"><div class="tip-bullet"></div>候補者名をクリックすると、<strong style="color:var(--river);">過去の出馬歴・得票数・当落結果</strong>まで確認できます。</div>
           <div class="tip-item"><div class="tip-bullet"></div>「この人、前回も出てたの？」「何票差で落選したの？」という留1問に答えてくれます。</div>
           <div class="tip-item"><div class="tip-bullet"></div>※民間サービスのため情報が網羅されていない場合もあります。公式確認は選管ページで。</div>
-        </div>
-      </div>
-    </main>
-    <footer>
-      <div>
-        <div class="footer-logo">四万十町議会ナビ</div>
-        <p class="footer-desc">このサイトは有志団体が運営する非公式サイトです。</p>
-      </div>
-    </footer>
-  </div>
-
-  <!-- ========== FORM ========== -->
-  <div id="page-form" class="page">
-    <div class="page-hero hero-green p-form">
-      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 住民の声</div>
-      <h1>あなたの声を、<br>議会へ。</h1>
-      <p>「こんなこと聞いていいの？」そんな遠慮は不要です。<br>町のこと、議会への疑問、なんでも送ってください。</p>
-    </div>
-    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
-      style="height:60px;background:#1b4332;">
-      <path fill="#fdf6ec"
-        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
-    </svg>
-    <main>
-      <div class="intro-cards">
-        <div class="intro-card">
-          <div class="intro-card-icon">🤔</div>
-          <div class="intro-card-title">議会への疑問・質問</div>
-          <div class="intro-card-desc">「なぜこんな決定が？」議会に聞いてみたいことを送ってください。</div>
-        </div>
-        <div class="intro-card">
-          <div class="intro-card-icon">💡</div>
-          <div class="intro-card-title">町への意見・提案</div>
-          <div class="intro-card-desc">「こうしてほしい」「こんな問題がある」住んでいるからこそ気づくことを。</div>
-        </div>
-        <div class="intro-card">
-          <div class="intro-card-icon">😟</div>
-          <div class="intro-card-title">困っていること</div>
-          <div class="intro-card-desc">道路、福祉、子育て、農業…身近な困りごとも大切な情報です。</div>
-        </div>
-        <div class="intro-card">
-          <div class="intro-card-icon">👍</div>
-          <div class="intro-card-title">応援・感想</div>
-          <div class="intro-card-desc">議員や議会の取り組みへの感想も歓迎です。</div>
-        </div>
-      </div>
-      <div class="section-title">意見・質問を送る</div>
-      <div class="embed-note">📋 <strong>サイト公開時はGoogleフォームをここに埋め込む予定です。</strong>現在はデザインのたたき版です。</div>
-      <div class="form-box">
-        <div class="form-group"><label class="form-label">カテゴリ<span class="required">必須</span></label>
-          <div class="cat-grid"><label class="cat-label"><input type="radio" name="cat"> 🤔 議会への質問</label><label
-              class="cat-label"><input type="radio" name="cat"> 💡 意見・提案</label><label class="cat-label"><input
-                type="radio" name="cat"> 😟 困っていること</label><label class="cat-label"><input type="radio" name="cat"> 👍
-              応援・感想</label></div>
-        </div>
-        <div class="form-group"><label class="form-label">お名前<span class="optional">任意</span></label><input type="text"
-            class="form-input" placeholder="ペンネームでも可。匿名でも送れます。"></div>
-        <div class="form-group"><label class="form-label">お住まいの地区<span class="optional">任意</span></label><select
-            class="form-select">
-            <option value="">選択してください</option>
-            <option>窪川地区</option>
-            <option>大正地区</option>
-            <option>十和地区</option>
-            <option>その他・町外</option>
-          </select></div>
-        <div class="form-group"><label class="form-label">内容<span class="required">必須</span></label><textarea
-            class="form-textarea" placeholder="どんな小さなことでも、気軽に書いてください。"></textarea></div>
-        <button class="submit-btn">送信する →</button>
-        <div class="privacy-note">
-          <p>📌 送信いただいた内容は運営団体が管理します。個人を特定できる情報を公開することはありません。</p>
-        </div>
-      </div>
-      <div class="how-box">
-        <h3>📬 届いた声はどうなるの？</h3>
-        <div class="how-list">
-          <div class="how-item">
-            <div class="how-dot"></div>集まった意見は定期的にまとめて、議会事務局または議員に届けます。
-          </div>
-          <div class="how-item">
-            <div class="how-dot"></div>多く寄せられたテーマはサイト上で「住民の声まとめ」として匿名で共有します。
-          </div>
-          <div class="how-item">
-            <div class="how-dot"></div>個人情報は一切公開しません。
-          </div>
         </div>
       </div>
     </main>
@@ -3474,13 +3375,6 @@
             <div class="ol-desc">経歴・プロフィールをわかりやすく確認できます</div>
           </div><span class="ol-arrow">›</span>
         </a>
-      </div>
-      <div class="voice-cta-box">
-        <div>
-          <h3>選挙について疑問がありますか？</h3>
-          <p>「誰に投票すればいい？」「候補者の情報はどこで見る？」<br>フォームから質問を送ってください。</p>
-        </div>
-        <button class="btn-voice" onclick="showPage('form')">質問を送る →</button>
       </div>
     </main>
     <footer>
