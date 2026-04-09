@@ -140,7 +140,30 @@
     }
 
     .hero-red {
-      background: linear-gradient(135deg, #7b1c1c 0%, #c0392b 40%, #e74c3c 100%);
+      background: transparent;
+      padding-top: 80px;
+      padding-bottom: 240px;
+      padding-left: 47%;
+      padding-right: 22%;
+    }
+    .hero-red .hero-text-box p {
+      font-size: 1.05rem;
+      color: #ffffff;
+      font-weight: 700;
+      line-height: 1.9;
+      max-width: none;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+    .hero-red-wrap {
+      background: url('images/hero_election.jpg') center top / cover no-repeat;
+    }
+    .hero-text-box {
+      background: rgba(120, 20, 20, 0.88);
+      padding: 18px 22px;
+      border-radius: 10px;
+    }
+    @media(max-width:768px) {
+      .hero-red { min-height: unset; padding-left: 20px; padding-right: 20px; }
     }
 
     .page-hero::after {
@@ -2364,11 +2387,11 @@
   <nav>
     <div class="logo" onclick="showPage('top')">四万十町議会ナビ</div>
     <ul class="nav-links">
+      <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙情報</a></li>
       <li><a onclick="showPage('members')" id="nav-members">議員紹介</a></li>
       <li><a onclick="showPage('report')" id="nav-report">議会レポート</a></li>
       <li><a onclick="showPage('chosei')" id="nav-chosei">傍聴ガイド</a></li>
       <li><a onclick="showPage('guide')" id="nav-guide">公式サイトの読み方</a></li>
-      <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙情報</a></li>
     </ul>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
@@ -2992,16 +3015,20 @@
 
   <!-- ========== ELECTION ========== -->
   <div id="page-election" class="page">
-    <div class="page-hero hero-red">
-      <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 選挙情報</div>
-      <h1>2026年4月<br>四万十町の選挙</h1>
-      <p>今年4月、四万十町では町長選挙と議会議員補欠選挙が同日に行われます。<br>あなたの一票が、この町の4年間を決めます。</p>
+    <div class="hero-red-wrap">
+      <div class="page-hero hero-red">
+        <div class="hero-text-box">
+          <div class="breadcrumb"><a onclick="showPage('top')">HOME</a> › 選挙情報</div>
+          <h1>2026年4月<br>四万十町の選挙</h1>
+          <p>投票日は12日。四万十町では町長選挙と議会議員補欠選挙が同日に行われます。<br>あなたの一票が、この町の未来を決めます。</p>
+        </div>
+      </div>
+      <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
+        style="height:60px;background:transparent;">
+        <path fill="#fdf6ec"
+          d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
+      </svg>
     </div>
-    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none"
-      style="height:60px;background:#7b1c1c;">
-      <path fill="#fdf6ec"
-        d="M0,40L80,32C160,24,320,8,480,10C640,12,800,32,960,36C1120,40,1280,28,1360,22L1440,16L1440,60L0,60Z" />
-    </svg>
     <main>
       <div class="countdown-box">
         <div>
