@@ -1975,6 +1975,9 @@
     /* ===== CANDIDATE POLICY ===== */
     .cp-disclaimer { background:#fff8e1; border-left:3px solid #f4a261; border-radius:3px; padding:10px 16px; font-size:0.75rem; color:#7a5c1a; margin-bottom:20px; line-height:1.7; }
     .cp-card { background:#fff; border:1px solid var(--border); border-radius:8px; margin-bottom:24px; overflow:hidden; }
+    .cp-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:24px; }
+    .cp-grid-2 .cp-card { margin-bottom:0; }
+    @media (max-width:640px) { .cp-grid-2 { grid-template-columns:1fr; } }
     .cp-card-header { background:linear-gradient(135deg,#1a4a5c 0%,#2d6a8f 100%); color:#fff; padding:18px 22px 14px; display:flex; align-items:flex-start; gap:14px; }
     .cp-header-info { flex:1; min-width:0; }
     .cp-poster { flex-shrink:0; width:72px; }
@@ -3088,7 +3091,40 @@
         </div>
       </div>
       <div class="section-title" id="candidate-policy">候補者情報・政策</div>
-      <div class="cp-disclaimer">※ 以下の情報は候補者が配布したチラシをもとに作成しています。内容の正確性は各候補者の公式情報でご確認ください。</div>
+      <div class="cp-disclaimer">※ 以下の情報は候補者が配布したチラシをもとに作成しています。内容の正確性は各候補者の公式情報でご確認ください。<br>※ 掲載順は五十音順です。</div>
+
+      <div class="cp-grid-2">
+      <!-- 武石利彦 -->
+      <div class="cp-card">
+        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a5c2d 0%,#2d8f50 100%);">
+          <div class="cp-header-info">
+            <div class="cp-kana">たけいし としひこ</div>
+            <div class="cp-name">武石 利彦</div>
+            <div class="cp-meta">68歳 ／ 元高知県議会議員（7期）・元議長（第91・95代）</div>
+            <div class="cp-catch">「みんなが楽しく暮らせる町に」</div>
+          </div>
+          <div class="cp-poster">
+            <img src="images/posters/poster_takeishi.jpg" alt="武石利彦 選挙ポスター" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
+        <div class="cp-slogan" style="background:#eaf4ee;color:#1a5c2d;border-color:#b8dfc4;">「町の未来づくり」やって見せます！</div>
+        <div class="cp-body">
+          <div style="font-size:0.78rem;color:var(--text-mid);background:#f5faf6;border-radius:4px;padding:10px 14px;margin-bottom:16px;line-height:1.8;">
+            💪 これまでの実績と人脈（国や県のパイプ）をフルに活かします
+          </div>
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#1a5c2d;">1</div>
+            <div><div class="cp-policy-title">一次産業の強化で雇用・収入増へ</div>
+            <div class="cp-policy-detail">四万十の強みである一次産業を磨きあげ、雇用を拡げ、収入増につなげます。</div></div>
+          </div>
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#1a5c2d;">2</div>
+            <div><div class="cp-policy-title">人に優しい町づくり</div>
+            <div class="cp-policy-detail">高齢者が安心して生きがいを持てる環境づくり、子育て支援に取り組みます。</div></div>
+          </div>
+          <div class="cp-source-badge">📄 情報源：候補者配布チラシ（2026年4月）</div>
+        </div>
+      </div>
 
       <!-- 山脇光章 -->
       <div class="cp-card">
@@ -3128,42 +3164,34 @@
           <div class="cp-source-badge">📄 情報源：候補者配布チラシ（2026年4月）</div>
         </div>
       </div>
-
-      <!-- 武石利彦 -->
-      <div class="cp-card">
-        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a5c2d 0%,#2d8f50 100%);">
-          <div class="cp-header-info">
-            <div class="cp-kana">たけいし としひこ</div>
-            <div class="cp-name">武石 利彦</div>
-            <div class="cp-meta">68歳 ／ 元高知県議会議員（7期）・元議長（第91・95代）</div>
-            <div class="cp-catch">「みんなが楽しく暮らせる町に」</div>
-          </div>
-          <div class="cp-poster">
-            <img src="images/posters/poster_takeishi.jpg" alt="武石利彦 選挙ポスター" onerror="this.parentElement.style.display='none'">
-          </div>
-        </div>
-        <div class="cp-slogan" style="background:#eaf4ee;color:#1a5c2d;border-color:#b8dfc4;">「町の未来づくり」やって見せます！</div>
-        <div class="cp-body">
-          <div style="font-size:0.78rem;color:var(--text-mid);background:#f5faf6;border-radius:4px;padding:10px 14px;margin-bottom:16px;line-height:1.8;">
-            💪 これまでの実績と人脈（国や県のパイプ）をフルに活かします
-          </div>
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#1a5c2d;">1</div>
-            <div><div class="cp-policy-title">一次産業の強化で雇用・収入増へ</div>
-            <div class="cp-policy-detail">四万十の強みである一次産業を磨きあげ、雇用を拡げ、収入増につなげます。</div></div>
-          </div>
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#1a5c2d;">2</div>
-            <div><div class="cp-policy-title">人に優しい町づくり</div>
-            <div class="cp-policy-detail">高齢者が安心して生きがいを持てる環境づくり、子育て支援に取り組みます。</div></div>
-          </div>
-          <div class="cp-source-badge">📄 情報源：候補者配布チラシ（2026年4月）</div>
-        </div>
-      </div>
+      </div><!-- /cp-grid-2 町長選挙 -->
 
       <div class="section-title" style="margin-top:48px;">補欠選挙 候補者情報・政策</div>
       <div class="cp-disclaimer">
-        ※ 以下の情報は候補者が配布したチラシをもとに作成しています。8名中、チラシが入手できた候補者から順次掲載します。
+        ※ 以下の情報は候補者が配布したチラシをもとに作成しています。8名中、チラシが入手できた候補者から順次掲載します。<br>※ 掲載順は五十音順です。
+      </div>
+
+      <div class="cp-grid-2">
+      <!-- 小野ゆうすけ -->
+      <div class="cp-card">
+        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a6a4a 0%,#27ae60 100%);">
+          <div class="cp-header-info">
+            <div class="cp-kana">おの ゆうすけ</div>
+            <div class="cp-name">小野 ゆうすけ</div>
+            <div class="cp-meta">46歳 ／ 宿泊業 ／ 無所属</div>
+            <div class="cp-catch">「みて・きいて・やる」</div>
+          </div>
+          <div class="cp-poster">
+            <img src="images/posters/poster_ono.jpg" alt="小野ゆうすけ 選挙ポスター" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
+        <div class="cp-slogan" style="background:#eaf7f0;color:#1a6a4a;border-color:#a8dfc4;">みて・きいて・やる</div>
+        <div class="cp-body">
+          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4faf7;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
+            📋 詳細な政策は入手次第掲載します
+          </div>
+          <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
+        </div>
       </div>
 
       <!-- 芝みずほ -->
@@ -3209,22 +3237,91 @@
         </div>
       </div>
 
-      <!-- 小野ゆうすけ -->
+      <!-- 中町ひろのぶ -->
       <div class="cp-card">
-        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a6a4a 0%,#27ae60 100%);">
+        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a5c7a 0%,#2980b9 100%);">
           <div class="cp-header-info">
-            <div class="cp-kana">おの ゆうすけ</div>
-            <div class="cp-name">小野 ゆうすけ</div>
-            <div class="cp-meta">46歳 ／ 宿泊業 ／ 無所属</div>
-            <div class="cp-catch">「みて・きいて・やる」</div>
+            <div class="cp-kana">なかまち ひろのぶ</div>
+            <div class="cp-name">中町 ひろのぶ</div>
+            <div class="cp-meta">74歳 ／ 農業・地域づくり ／ 無所属 ／ 四万十町生まれ</div>
+            <div class="cp-catch">「暮らしの現場から、町政へ。」</div>
           </div>
           <div class="cp-poster">
-            <img src="images/posters/poster_ono.jpg" alt="小野ゆうすけ 選挙ポスター" onerror="this.parentElement.style.display='none'">
+            <img src="images/posters/poster_nakamachi.jpg" alt="中町ひろのぶ 選挙ポスター" onerror="this.parentElement.style.display='none'">
           </div>
         </div>
-        <div class="cp-slogan" style="background:#eaf7f0;color:#1a6a4a;border-color:#a8dfc4;">みて・きいて・やる</div>
+        <div class="cp-slogan" style="background:#eaf4fb;color:#1a5c7a;border-color:#aed6f1;">人が減りゆく今、やるべきこと。明るい未来につながる町に</div>
         <div class="cp-body">
-          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4faf7;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#2980b9;">1</div>
+            <div>
+              <div class="cp-policy-title">地域住民と移住者が助け合える町へ</div>
+              <div class="cp-policy-detail">移住者と地域住民が交流できる場づくり、地域と移住者をつなぐ仕組みづくり、移住後の暮らしを支える相談体制の整備。</div>
+            </div>
+          </div>
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#2980b9;">2</div>
+            <div>
+              <div class="cp-policy-title">地域の担い手不足を解消する</div>
+              <div class="cp-policy-detail">農業や地域活動への参加機会づくり、町内から始められる人を増やす取り組み、担い手不足の地域と人材のマッチング。</div>
+            </div>
+          </div>
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#2980b9;">3</div>
+            <div>
+              <div class="cp-policy-title">限界集落が再生するしくみを整える</div>
+              <div class="cp-policy-detail">関係人口から移住につながる仕組みづくり、地域と移住希望者の丁寧なマッチング、定住につながるサポート体制。</div>
+            </div>
+          </div>
+          <div class="cp-policy-item">
+            <div class="cp-policy-num" style="background:#2980b9;">4</div>
+            <div>
+              <div class="cp-policy-title">四万十町の伝統文化と美しい自然を未来につなぐ</div>
+              <div class="cp-policy-detail">里山の風景や農地を守る取り組み、地域の祭りや文化の継承、空き家や耕作放棄地の活用。</div>
+            </div>
+          </div>
+          <div class="cp-source-badge">📄 情報源：候補者配布チラシ（2026年4月）</div>
+        </div>
+      </div>
+
+      <!-- 橋本ひろみ -->
+      <div class="cp-card">
+        <div class="cp-card-header" style="background:linear-gradient(135deg,#2a4a2a 0%,#4a7a4a 100%);">
+          <div class="cp-header-info">
+            <div class="cp-kana">はしもと ひろみ</div>
+            <div class="cp-name">橋本 ひろみ</div>
+            <div class="cp-meta">51歳 ／ 会社員 ／ 無所属 ／ 四万十町興津生まれ・育ち</div>
+            <div class="cp-catch">「四万十町とこれからも」</div>
+          </div>
+          <div class="cp-poster">
+            <img src="images/posters/poster_hashimoto.jpg" alt="橋本ひろみ 選挙ポスター" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
+        <div class="cp-slogan" style="background:#eef5ee;color:#2a4a2a;border-color:#b8d4b8;">四万十町とこれからも</div>
+        <div class="cp-body">
+          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4f8f4;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
+            📋 詳細な政策は入手次第掲載します
+          </div>
+          <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
+        </div>
+      </div>
+
+      <!-- 山脇めぐみ -->
+      <div class="cp-card">
+        <div class="cp-card-header" style="background:linear-gradient(135deg,#2a3a5a 0%,#4a6a9a 100%);">
+          <div class="cp-header-info">
+            <div class="cp-kana">やまわき めぐみ</div>
+            <div class="cp-name">山脇 めぐみ</div>
+            <div class="cp-meta">53歳 ／ 宿泊業 ／ 無所属</div>
+            <div class="cp-catch">「意思に応える仕組み作りを！」</div>
+          </div>
+          <div class="cp-poster">
+            <img src="images/posters/poster_yamawaki_megumi.jpg" alt="山脇めぐみ 選挙ポスター" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
+        <div class="cp-slogan" style="background:#eef0f8;color:#2a3a5a;border-color:#b8c4dc;">意思に応える仕組み作りを！</div>
+        <div class="cp-body">
+          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4f5f8;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
             📋 詳細な政策は入手次第掲載します
           </div>
           <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
@@ -3278,53 +3375,6 @@
         </div>
       </div>
 
-      <!-- 中町ひろのぶ -->
-      <div class="cp-card">
-        <div class="cp-card-header" style="background:linear-gradient(135deg,#1a5c7a 0%,#2980b9 100%);">
-          <div class="cp-header-info">
-            <div class="cp-kana">なかまち ひろのぶ</div>
-            <div class="cp-name">中町 ひろのぶ</div>
-            <div class="cp-meta">74歳 ／ 農業・地域づくり ／ 無所属 ／ 四万十町生まれ</div>
-            <div class="cp-catch">「暮らしの現場から、町政へ。」</div>
-          </div>
-          <div class="cp-poster">
-            <img src="images/posters/poster_nakamachi.jpg" alt="中町ひろのぶ 選挙ポスター" onerror="this.parentElement.style.display='none'">
-          </div>
-        </div>
-        <div class="cp-slogan" style="background:#eaf4fb;color:#1a5c7a;border-color:#aed6f1;">人が減りゆく今、やるべきこと。明るい未来につながる町に</div>
-        <div class="cp-body">
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#2980b9;">1</div>
-            <div>
-              <div class="cp-policy-title">地域住民と移住者が助け合える町へ</div>
-              <div class="cp-policy-detail">移住者と地域住民が交流できる場づくり、地域と移住者をつなぐ仕組みづくり、移住後の暮らしを支える相談体制の整備。</div>
-            </div>
-          </div>
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#2980b9;">2</div>
-            <div>
-              <div class="cp-policy-title">地域の担い手不足を解消する</div>
-              <div class="cp-policy-detail">農業や地域活動への参加機会づくり、町内から始められる人を増やす取り組み、担い手不足の地域と人材のマッチング。</div>
-            </div>
-          </div>
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#2980b9;">3</div>
-            <div>
-              <div class="cp-policy-title">限界集落が再生するしくみを整える</div>
-              <div class="cp-policy-detail">関係人口から移住につながる仕組みづくり、地域と移住希望者の丁寧なマッチング、定住につながるサポート体制。</div>
-            </div>
-          </div>
-          <div class="cp-policy-item">
-            <div class="cp-policy-num" style="background:#2980b9;">4</div>
-            <div>
-              <div class="cp-policy-title">四万十町の伝統文化と美しい自然を未来につなぐ</div>
-              <div class="cp-policy-detail">里山の風景や農地を守る取り組み、地域の祭りや文化の継承、空き家や耕作放棄地の活用。</div>
-            </div>
-          </div>
-          <div class="cp-source-badge">📄 情報源：候補者配布チラシ（2026年4月）</div>
-        </div>
-      </div>
-
       <!-- 吉田健一 -->
       <div class="cp-card">
         <div class="cp-card-header" style="background:linear-gradient(135deg,#3a3a2a 0%,#6b6b4a 100%);">
@@ -3346,50 +3396,7 @@
           <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
         </div>
       </div>
-
-      <!-- 橋本ひろみ -->
-      <div class="cp-card">
-        <div class="cp-card-header" style="background:linear-gradient(135deg,#2a4a2a 0%,#4a7a4a 100%);">
-          <div class="cp-header-info">
-            <div class="cp-kana">はしもと ひろみ</div>
-            <div class="cp-name">橋本 ひろみ</div>
-            <div class="cp-meta">51歳 ／ 会社員 ／ 無所属 ／ 四万十町興津生まれ・育ち</div>
-            <div class="cp-catch">「四万十町とこれからも」</div>
-          </div>
-          <div class="cp-poster">
-            <img src="images/posters/poster_hashimoto.jpg" alt="橋本ひろみ 選挙ポスター" onerror="this.parentElement.style.display='none'">
-          </div>
-        </div>
-        <div class="cp-slogan" style="background:#eef5ee;color:#2a4a2a;border-color:#b8d4b8;">四万十町とこれからも</div>
-        <div class="cp-body">
-          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4f8f4;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
-            📋 詳細な政策は入手次第掲載します
-          </div>
-          <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
-        </div>
-      </div>
-
-      <!-- 山脇めぐみ -->
-      <div class="cp-card">
-        <div class="cp-card-header" style="background:linear-gradient(135deg,#2a3a5a 0%,#4a6a9a 100%);">
-          <div class="cp-header-info">
-            <div class="cp-kana">やまわき めぐみ</div>
-            <div class="cp-name">山脇 めぐみ</div>
-            <div class="cp-meta">53歳 ／ 宿泊業 ／ 無所属</div>
-            <div class="cp-catch">「意思に応える仕組み作りを！」</div>
-          </div>
-          <div class="cp-poster">
-            <img src="images/posters/poster_yamawaki_megumi.jpg" alt="山脇めぐみ 選挙ポスター" onerror="this.parentElement.style.display='none'">
-          </div>
-        </div>
-        <div class="cp-slogan" style="background:#eef0f8;color:#2a3a5a;border-color:#b8c4dc;">意思に応える仕組み作りを！</div>
-        <div class="cp-body">
-          <div style="font-size:0.78rem;color:var(--text-mid);background:#f4f5f8;border-radius:4px;padding:10px 14px;margin-bottom:8px;line-height:1.8;">
-            📋 詳細な政策は入手次第掲載します
-          </div>
-          <div class="cp-source-badge">📸 情報源：選挙掲示板ポスター（2026年4月）</div>
-        </div>
-      </div>
+      </div><!-- /cp-grid-2 補欠選挙 -->
 
       <div class="section-title">補欠選挙が行われる背景</div>
       <div class="bg-box">
