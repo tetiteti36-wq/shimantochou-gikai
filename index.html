@@ -13,6 +13,7 @@
     gtag('js', new Date());
     gtag('config', 'G-6E9EKBPG3M');
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <!-- OGP -->
   <meta property="og:title" content="四万十町議会ナビ | 2026年4月 開票結果">
   <meta property="og:description" content="開票結果確定（4/12）。町長選は山脇みつあき氏が5,206票で当選。議員補選は横田まりこ・小野ゆうすけ両氏が当選。投票率65.25%。">
@@ -3362,6 +3363,23 @@
 
       <!-- ===== 投票所別 ===== -->
       <div class="section-title">🏫 投票所別投票率</div>
+
+      <!-- グラフ -->
+      <div style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-bottom:24px;">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-bottom:14px;letter-spacing:0.08em;">▶ 投票率ランキング（全52か所・高い順）　破線＝町全体平均 65.25%</div>
+        <div style="position:relative;height:900px;">
+          <canvas id="turnoutChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 比較グラフ（2014 vs 2026） -->
+      <div style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-bottom:24px;">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-bottom:14px;letter-spacing:0.08em;">▶ 前回（2014年）との投票率比較</div>
+        <div style="position:relative;height:180px;">
+          <canvas id="compareChart"></canvas>
+        </div>
+      </div>
+
       <div class="result-table-wrap" style="margin-bottom:40px;">
         <div class="result-table-head mayor-head">▶ 投票所別投票率（町内52か所 ／ 32か所分判明）</div>
         <div style="overflow-x:auto;">
@@ -4088,6 +4106,111 @@
       const m = document.getElementById('mobileMenu');
       m.style.display = m.style.display === 'block' ? 'none' : 'block';
     }
+
+    // ===== 投票所グラフ =====
+    (function() {
+      const raw = [
+        {n:'四万十町役場東庁舎',r:56.66},{n:'四万十町社会福祉センター',r:63.94},
+        {n:'窪川小学校',r:65.29},{n:'若井川小学校',r:71.51},{n:'家地川消防詰所',r:79.58},
+        {n:'四万十町立西町民会館',r:72.88},{n:'中神ノ川集会所',r:76.62},{n:'口神ノ川公民館',r:63.90},
+        {n:'旧丸山小学校体育館',r:62.06},{n:'東川角老人憩の家',r:68.30},
+        {n:'四万十町小野川集会所',r:66.73},{n:'米奥集会所',r:65.56},{n:'下栗の木集会所',r:59.18},
+        {n:'四万十町仁井田町民会館',r:58.22},{n:'四万十町影野町民会館',r:62.65},{n:'土居集会所',r:66.08},
+        {n:'四万十町志和コミュニティセンター',r:75.48},{n:'東又小学校',r:51.36},
+        {n:'四万十町東又地区基幹集落センター',r:61.92},{n:'四万十町興津出張所',r:61.70},
+        {n:'興津浦分第２集会所',r:60.54},{n:'四万十町興津町民館',r:40.26},
+        {n:'四万十町地域交流センターたのの',r:70.53},{n:'つづら川集会所',r:56.25},
+        {n:'四万十町瀬里集会所',r:78.85},{n:'上岡集会所',r:72.31},
+        {n:'四万十町打井川地域づくりセンター',r:68.82},{n:'上宮集会所',r:84.85},
+        {n:'弘瀬集会所',r:78.95},{n:'四万十町大正北ノ川多目的集会所',r:76.97},
+        {n:'相去集会所',r:74.29},{n:'四万十町江師生活改善センター',r:78.99},
+        {n:'大奈路小学校',r:72.69},{n:'中津川集落活動センターこだま',r:75.56},
+        {n:'木屋ヶ内集会所',r:78.26},{n:'下津井公民館',r:88.24},
+        {n:'四万十町里川入会林総合利用センター',r:82.35},{n:'四万十町十和東部地区交流センター',r:90.91},
+        {n:'四万十町昭和基幹集落センター',r:66.19},{n:'野々川生活改善センター',r:72.97},
+        {n:'四万十町十和隣保館',r:62.45},{n:'四万十町河内集会所',r:65.15},
+        {n:'四万十町十和体育館',r:85.14},{n:'四万十町小野農業構造改善センター',r:77.04},
+        {n:'奥大道生活改善センター',r:68.13},{n:'四万十町十和地域振興局',r:68.42},
+        {n:'戸川生活改善センター',r:74.00},{n:'古城生活改善センター',r:70.43},
+        {n:'地吉生活改善センター',r:71.72},{n:'広瀬集会所',r:73.81},
+        {n:'四万十町井崎集会所',r:60.42},{n:'津賀集会所',r:56.10}
+      ];
+      const sorted = [...raw].sort((a,b) => b.r - a.r);
+      const avg = 65.25;
+      const colors = sorted.map(d =>
+        d.r >= 85 ? '#1b5e20' : d.r >= 75 ? '#2d6a4f' : d.r >= 65 ? '#52b788' : d.r >= 55 ? '#f4a261' : '#e76f51'
+      );
+      const ctx = document.getElementById('turnoutChart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: sorted.map(d => d.n),
+            datasets: [{
+              data: sorted.map(d => d.r),
+              backgroundColor: colors,
+              borderRadius: 3,
+              barThickness: 13
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: { label: ctx => ` ${ctx.raw}%` }
+              },
+              annotation: {
+                annotations: {
+                  avgLine: {
+                    type: 'line', scaleID: 'x', value: avg,
+                    borderColor: '#e76f51', borderWidth: 1.5, borderDash: [5,4],
+                    label: { content: `平均 ${avg}%`, display: true, position: 'end', font: { size: 10 }, color: '#e76f51', backgroundColor: 'rgba(255,255,255,0.8)' }
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                min: 30, max: 100,
+                ticks: { callback: v => v + '%', font: { size: 10 } },
+                grid: { color: '#f0f4f0' }
+              },
+              y: { ticks: { font: { size: 10 } } }
+            }
+          }
+        });
+      }
+
+      // 比較グラフ
+      const ctx2 = document.getElementById('compareChart');
+      if (ctx2) {
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['男性', '女性', '合計'],
+            datasets: [
+              { label: '2014年', data: [71.11, 70.60, 70.83], backgroundColor: 'rgba(45,106,79,0.5)', borderColor: '#2d6a4f', borderWidth: 1.5, borderRadius: 4 },
+              { label: '2026年', data: [64.39, 66.03, 65.25], backgroundColor: 'rgba(231,111,81,0.55)', borderColor: '#e76f51', borderWidth: 1.5, borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { font: { size: 11 } } },
+              tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}：${ctx.raw}%` } }
+            },
+            scales: {
+              y: { min: 55, max: 80, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f0f4f0' } },
+              x: { ticks: { font: { size: 12 } } }
+            }
+          }
+        });
+      }
+    })();
 
     // カウントダウン
     const votingDay = new Date('2026-04-12');
