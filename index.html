@@ -3321,6 +3321,31 @@
       </div>
 
       <!-- ===== 前回比較 ===== -->
+      <!-- ===== 人口データ ===== -->
+      <div class="section-title">👥 四万十町の人口構造</div>
+      <div style="background:#fff8e8;border:1px solid #fcd9b5;border-radius:4px;padding:12px 18px;margin-bottom:20px;font-size:0.78rem;color:#92400e;line-height:1.8;">
+        投票率は「有権者の何割が投票したか」を示します。有権者数自体が減れば、絶対的な投票者数が減っても率が変わらない場合があります。人口構造と合わせてご覧ください。
+      </div>
+
+      <!-- 人口推移グラフ -->
+      <div style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-bottom:16px;">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-bottom:14px;letter-spacing:0.08em;">▶ 総人口の推移と将来推計　　実線＝実績　破線＝推計</div>
+        <div style="position:relative;height:240px;">
+          <canvas id="popTrendChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 年齢3区分グラフ -->
+      <div style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-bottom:8px;">
+        <div style="font-size:0.72rem;color:var(--text-light);margin-bottom:14px;letter-spacing:0.08em;">▶ 年齢3区分の変化（積み上げ）　　高齢化が加速している</div>
+        <div style="position:relative;height:200px;">
+          <canvas id="ageStructChart"></canvas>
+        </div>
+      </div>
+      <div style="font-size:0.68rem;color:var(--text-light);margin-bottom:40px;padding:0 4px;">
+        出典：<a href="https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=10082" target="_blank" style="color:var(--river);">四万十町人口ビジョン</a>・<a href="https://jp.gdfreak.com/public/detail/jp010050000001039412/16" target="_blank" style="color:var(--river);">住民基本台帳（GD Freak）</a>・国勢調査　／　2030年以降は推計値
+      </div>
+
       <div class="section-title">📈 前回（2014年）との比較</div>
       <div class="result-table-wrap" style="margin-bottom:40px;">
         <div class="result-table-head mayor-head">▶ 投票率・投票者数の比較</div>
@@ -4106,6 +4131,86 @@
       const m = document.getElementById('mobileMenu');
       m.style.display = m.style.display === 'block' ? 'none' : 'block';
     }
+
+    // ===== 人口グラフ =====
+    (function() {
+      // 総人口推移
+      const ctx1 = document.getElementById('popTrendChart');
+      if (ctx1) {
+        new Chart(ctx1, {
+          type: 'line',
+          data: {
+            labels: ['2010','2015','2020','2025','2030','2035','2040'],
+            datasets: [
+              {
+                label: '実績',
+                data: [18733, 17325, 15441, 14945, null, null, null],
+                borderColor: '#2d6a4f', backgroundColor: 'rgba(45,106,79,0.08)',
+                borderWidth: 2.5, pointRadius: 5, pointBackgroundColor: '#2d6a4f',
+                tension: 0.3, fill: true
+              },
+              {
+                label: '推計',
+                data: [null, null, null, 14945, 12419, 11086, 9838],
+                borderColor: '#f4a261', backgroundColor: 'rgba(244,162,97,0.06)',
+                borderWidth: 2, borderDash: [6,4], pointRadius: 4,
+                pointBackgroundColor: '#f4a261', tension: 0.3, fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { font: { size: 11 } } },
+              tooltip: { callbacks: { label: c => ` ${c.dataset.label}：${c.raw?.toLocaleString()}人` } }
+            },
+            scales: {
+              y: {
+                min: 8000, max: 20000,
+                ticks: { callback: v => (v/10000).toFixed(1)+'万人', font: { size: 10 } },
+                grid: { color: '#f0f4f0' }
+              },
+              x: { ticks: { font: { size: 11 } } }
+            }
+          }
+        });
+      }
+
+      // 年齢3区分
+      const ctx2 = document.getElementById('ageStructChart');
+      if (ctx2) {
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['2010年', '2020年', '2025年'],
+            datasets: [
+              { label: '65歳以上', data: [7209, 7259, 6892], backgroundColor: '#e76f51' },
+              { label: '15〜64歳', data: [9470, 6798, 6739], backgroundColor: '#52b788' },
+              { label: '0〜14歳', data: [2050, 1385, 1314], backgroundColor: '#74c69d' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { font: { size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: c => ` ${c.dataset.label}：${c.raw.toLocaleString()}人`
+                }
+              }
+            },
+            scales: {
+              x: { stacked: true, ticks: { font: { size: 12 } } },
+              y: {
+                stacked: true,
+                ticks: { callback: v => v.toLocaleString()+'人', font: { size: 10 } },
+                grid: { color: '#f0f4f0' }
+              }
+            }
+          }
+        });
+      }
+    })();
 
     // ===== 投票所グラフ =====
     (function() {
