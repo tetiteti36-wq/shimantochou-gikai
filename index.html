@@ -108,7 +108,21 @@
     }
 
     .nav-election {
-      color: #f4a8a0 !important;
+      color: #fff !important;
+      background: #c0392b;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      animation: pulse-nav 2s ease-in-out infinite;
+    }
+    .nav-election:hover {
+      background: #e74c3c !important;
+      color: #fff !important;
+    }
+    @keyframes pulse-nav {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.5); }
+      50%       { box-shadow: 0 0 0 6px rgba(192, 57, 43, 0); }
     }
 
     .hamburger {
@@ -2526,7 +2540,7 @@
   <nav>
     <div class="logo" onclick="showPage('top')">四万十町議会ナビ</div>
     <ul class="nav-links">
-      <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙情報</a></li>
+      <li><a onclick="showPage('election')" id="nav-election" class="nav-election">🗳️ 選挙結果</a></li>
       <li><a onclick="showPage('members')" id="nav-members">議員紹介</a></li>
       <li><a onclick="showPage('report')" id="nav-report">議会レポート</a></li>
       <li><a onclick="showPage('chosei')" id="nav-chosei">傍聴ガイド</a></li>
