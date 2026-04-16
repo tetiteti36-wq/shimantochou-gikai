@@ -4053,6 +4053,8 @@
       { name: '味元 和義', kana: 'みもと かずよし', role: '議員', term: 'veteran', terms: 4, age: 74, birth: '昭和26年', party: '無所属', av: 'av-brown', id: 60 },
       { name: '橋本 章央', kana: 'はしもと ふみお', role: '議員', term: 'veteran', terms: 4, age: 74, birth: '昭和27年', party: '無所属', av: 'av-dark', id: 67 },
       { name: '堀本 伸一', kana: 'ほりもと しんいち', role: '議員', term: 'veteran', terms: 5, age: 75, birth: '昭和25年', party: '無所属', av: 'av-green', id: 61 },
+      { name: '横田 麻梨子', kana: 'よこた まりこ', role: '議員', term: 'new', terms: 1, age: 41, birth: '昭和60年', party: '無所属', av: 'av-red', gender: 'female', id: null },
+      { name: '小野 ゆうすけ', kana: 'おの ゆうすけ', role: '議員', term: 'new', terms: 1, age: 46, birth: '昭和55年', party: '無所属', av: 'av-teal', id: null },
     ];
 
     function buildMembers() {
@@ -4086,7 +4088,7 @@
         <div class="info-row"><span class="info-icon">💬</span><span class="info-label">得意分野</span><span class="info-value" style="color:#bbb;">準備中</span></div>
       </div>
       <div class="card-footer">
-        <a href="https://www.town.shimanto.lg.jp/giin/dtl.php?id=${m.id}" target="_blank" class="official-link-sm">公式プロフィールを見る →</a>
+        ${m.id ? `<a href="https://www.town.shimanto.lg.jp/giin/dtl.php?id=${m.id}" target="_blank" class="official-link-sm">公式プロフィールを見る →</a>` : `<span class="official-link-sm" style="color:#bbb;cursor:default;">公式サイト掲載待ち</span>`}
       </div>
     </div>`;
       });
