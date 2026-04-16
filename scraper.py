@@ -22,14 +22,14 @@ def scrape_gikai_news():
         return
 
     # Extract the block of newest info
-    block_match = re.search(r'議会新着情報(.*?)(?:</ul>|</div>)', html, re.DOTALL)
+    # The block ends with </ul>, not </div> (which appears sooner inside the heading)
+    block_match = re.search(r'議会新着情報.*?(<ul.*?</ul>)', html, re.DOTALL)
     news_list = []
-    
+
     if block_match:
         block = block_match.group(1)
-        # Regex to find: <li>YYYY年MM月DD日 <a href="L">T</a></li>
-        # Sometimes there's a space, sometimes a full-width space "　"
-        items = re.findall(r'<li>\s*(\d{4}年\d{1,2}月\d{1,2}日).*?<a href="([^"]+)">(.*?)</a>', block, re.DOTALL)
+        # HTML uses single-quoted attrs and <li style='...'> — match accordingly
+        items = re.findall(r"<li[^>]*>\s*(\d{4}年\d{1,2}月\d{1,2}日)[^<]*<a href='([^']+)'>(.*?)</a>", block, re.DOTALL)
         
         for date_str, link, title in items:
             if link.startswith('/'):
