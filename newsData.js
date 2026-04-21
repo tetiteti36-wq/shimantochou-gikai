@@ -1,15 +1,5 @@
 const GIKAI_NEWS = [
   {
-    "date": "2026年04月13日",
-    "title": "産業建設常任委員会の開催について（4/21）",
-    "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12298"
-  },
-  {
-    "date": "2026年04月13日",
-    "title": "総務常任委員会の開催について（4/21）",
-    "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12299"
-  },
-  {
     "date": "2026年03月16日",
     "title": "四万十町議会情報セキュリティ基本方針",
     "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12248"
