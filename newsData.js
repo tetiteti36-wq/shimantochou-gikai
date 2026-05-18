@@ -6,7 +6,7 @@ const GIKAI_NEWS = [
   },
   {
     "date": "2025年02月25日",
-    "title": "四万十町議会の組織（令和7年2月17日更新）",
+    "title": "四万十町議会の組織（令和8年5月12日更新）",
     "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=3818"
   },
   {
