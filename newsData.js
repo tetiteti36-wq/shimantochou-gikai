@@ -1,5 +1,10 @@
 const GIKAI_NEWS = [
   {
+    "date": "2026年06月03日",
+    "title": "令和8年第2回四万十町議会定例会の開会について",
+    "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12350"
+  },
+  {
     "date": "2026年03月16日",
     "title": "四万十町議会情報セキュリティ基本方針",
     "url": "https://www.town.shimanto.lg.jp/life/detail.php?hdnKey=12248"
